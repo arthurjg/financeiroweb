@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import financeiro.dao.CategoriaDAO;
 import financeiro.dao.UsuarioDAO;
-import financeiro.dao.mock.UsuarioDAOMock;
 import financeiro.model.Usuario;
 import financeiro.rn.UsuarioRN;
 
