@@ -6,9 +6,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-import financeiro.conta.Conta;
-import financeiro.conta.ContaRN;
-import financeiro.usuario.Usuario;
+import financeiro.model.Conta;
+import financeiro.model.Usuario;
+import financeiro.rn.ContaRN;
 import financeiro.web.util.ContextoUtil;
 
 @ManagedBean(name = "contaBean")

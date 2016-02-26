@@ -1,44 +1,42 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags">
-	
+	xmlns:util="http://java.sun.com/jsf/composite/components/util">
+
 <ui:composition template="/templates/principal.xhtml">
 
-	<ui:define name="corpo">
+	<ui:define name="titulo">
+	Financeiro Web
+	</ui:define>
 
-	Usuario logado #{request.remoteUser}
-	 	<br/>
-	 	Nome do usuario logado #{contextoBean.usuarioLogado.nome}
-		<br />
+	<ui:define name="corpo">
 		<h:form>
-		
-		
-			<h:commandButton value="Conta" action="conta" />
-			
-			<h:selectOneMenu value="#{contextoBean.contaAtiva.conta}"
-					valueChangeListener="#{contextoBean.setContaAtiva}" 
-					rendered="#{!empty contextoBean}"
-					onchange="submit()">
-				<f:selectItems 	value="#{contaBean.lista}" var="conta"	
-					itemValue="#{conta.conta}" itemLabel="#{conta.descricao}"/>
-			</h:selectOneMenu>	
-					
-			<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR">
-				<h:commandLink action="/admin/principal" title="Administrativo">
-					<h:graphicImage library="imagens" name="administrativo16.png" />
-				</h:commandLink>
-			</sec:ifAnyGranted>
-			
-			<a onclick="document.location='#{request.contextPath}/j_spring_security_logout'"
-				title="Sair">
-				<h:graphicImage library="imagens" name="logout16.png" />
-				</a>
+		<h:panelGrid columns="2" cellpadding="5">
+			<h:panelGroup>
+				<fieldset><legend>Lançamentos do Mês</legend>
+					<util:extrato width="350px" height="100%" 
+					lista="#{lancamentoBean.listaMes}" 
+					larguraDescricao="130"
+					botaoExclusao="false"
+					botaoEdicao="false"
+					colunaSaldo="false"/>
+				</fieldset>
+			</h:panelGroup>
+			<h:panelGroup>
+				<fieldset><legend>Lançamentos do Mês Anterior</legend>
+					<util:extrato width="350px" height="100%" 
+					lista="#{lancamentoBean.listaMesAnterior}" 
+					larguraDescricao="130"
+					botaoExclusao="false"
+					botaoEdicao="false"
+					colunaSaldo="false"/>
+				</fieldset>
+			</h:panelGroup>
+		</h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>
-		
 </html>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+	
+		<!-- Configuração da conexão com o Banco MySQL e dialeto -->
+		
+		<!--<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		-->
+		<property name="dialect">org.hibernate.dialect.DB2Dialect</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="connection.datasource">java:/comp/env/jdbc/FinanceiroDB</property>
+		
+		<!--
+		<property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
+		<property name="connection.url">jdbc:db2://localhost:50000/Finance</property>
+		<property name="connection.username">Art</property>
+		<property name="connection.password">artgar</property>
+		-->
+
+		
+		<!-- Mapeando classes -->
+		
+		<mapping class="financeiro.model.Usuario" />
+		<mapping class="financeiro.model.Conta" />
+		<mapping class="financeiro.model.Categoria" />
+		<mapping class="financeiro.model.Lancamento" />
+		<mapping class="financeiro.model.Cheque" />
+	</session-factory>
+	
+
+</hibernate-configuration>

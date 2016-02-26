@@ -7,9 +7,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 
-import financeiro.conta.*;
-import financeiro.usuario.Usuario;
-import financeiro.usuario.UsuarioRN;
+import financeiro.model.Conta;
+import financeiro.model.Usuario;
+import financeiro.rn.ContaRN;
+import financeiro.rn.UsuarioRN;
 
 @ManagedBean(name="usuarioBean")
 @RequestScoped
@@ -43,7 +44,7 @@ public class UsuarioBean {
 		String senha = this.usuario.getSenha();
 		if ( !senha.equals( this.confirmarSenha ) ) {
 			FacesMessage facesMessage = 
-				new FacesMessage("A senha n„o foi confirmada corretamente");
+				new FacesMessage("A senha n√£o foi confirmada corretamente");
 			context.addMessage( null, facesMessage);
 			return null;
 		}
@@ -99,6 +100,10 @@ public class UsuarioBean {
 			this.lista = usuarioRN.listar();
 		}
 		return this.lista;
+	}
+	
+	public String cancelaEdicao(){
+		return "login";
 	}
 	
 	public String getConfirmarSenha() {
