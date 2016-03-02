@@ -1,6 +1,5 @@
 package finnanceiro.rn;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -12,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import financeiro.dao.CategoriaDAO;
 import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
 import financeiro.rn.CategoriaRN;
@@ -25,8 +23,7 @@ public class UsuarioRNTest {
 	CategoriaRN categoriaRnMock;
 
 	@Before
-	public void setUp() throws Exception {
-		CategoriaDAO categoriaDaoMock = mock(CategoriaDAO.class);
+	public void setUp() throws Exception {		
 		usuarioDAOMock = mock(UsuarioDAO.class);
 		categoriaRnMock = mock(CategoriaRN.class);
 		usuarioRN = new UsuarioRN(usuarioDAOMock, categoriaRnMock);
