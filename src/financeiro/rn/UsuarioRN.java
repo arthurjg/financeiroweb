@@ -2,7 +2,6 @@ package financeiro.rn;
 
 import java.util.List;
 
-import financeiro.dao.CategoriaDAO;
 import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
 import financeiro.util.DAOFactory;
@@ -20,9 +19,9 @@ public class UsuarioRN {
 		this.usuarioDAO = usuarioDAO;
 	}
 	
-	public UsuarioRN(UsuarioDAO usuarioDAO, CategoriaDAO categoriaDAO) {		
+	public UsuarioRN(UsuarioDAO usuarioDAO, CategoriaRN categoriaRN) {		
 		this.usuarioDAO = usuarioDAO;
-		this.categoriaRN = new CategoriaRN(categoriaDAO);
+		this.categoriaRN = categoriaRN;
 	}
 	
 	public Usuario carregar( Integer codigo ){
@@ -30,11 +29,11 @@ public class UsuarioRN {
 	}
 	
 	public Usuario buscarPorLogin( String login ){
-		return this.usuarioDAO.buscaPorLogin(login);
+		return this.usuarioDAO.buscarPorLogin(login);
 	}
 	
 	public Usuario buscarPorEmail( String email ){
-		return this.usuarioDAO.buscaPorEmail(email);
+		return this.usuarioDAO.buscarPorEmail(email);
 	}
 	
 	public void salvar( Usuario usuario ){
@@ -51,8 +50,7 @@ public class UsuarioRN {
 		}
 	}
 	
-	public void excluir( Usuario usuario ){
-		CategoriaRN categoriaRN = new CategoriaRN();
+	public void excluir( Usuario usuario ){		
 		categoriaRN.excluir(usuario);
 		this.usuarioDAO.excluir(usuario);
 	}

@@ -4,6 +4,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import financeiro.model.Categoria;
+import financeiro.model.Cheque;
+import financeiro.model.Conta;
+import financeiro.model.Lancamento;
 import financeiro.model.Usuario;
 
 public class HibernateUtil {
@@ -14,24 +18,29 @@ public class HibernateUtil {
 		try {
 			AnnotationConfiguration cfg = new AnnotationConfiguration()
 			.addAnnotatedClass(Usuario.class)
-			.setProperty("dialect", "org.hibernate.dialect.DB2Dialect")
+			.addAnnotatedClass(Categoria.class)
+			.addAnnotatedClass(Conta.class)
+			.addAnnotatedClass(Lancamento.class)
+			.addAnnotatedClass(Cheque.class)
+			.setProperty("dialect", "org.hibernate.dialect.PostgreSQLDialect")
 			.setProperty("current_session_context_class", "thread")
 			.setProperty("hibernate.hbm2ddl.auto", "update")
-			.setProperty("hibernate.connection.driver_class", "com.ibm.db2.jcc.DB2Driver")
-			.setProperty("hibernate.connection.url", "jdbc:db2://localhost:50000/Finance")
-			.setProperty("hibernate.connection.username", "Art")
-			.setProperty("hibernate.connection.password", "artgar");
+			.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
+			.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/FinanceiroTeste")
+			.setProperty("hibernate.connection.username", "postgres")
+			.setProperty("hibernate.connection.password", "1234");
 			
 			sessionFactory = cfg.buildSessionFactory();
 		} catch ( Throwable e) {
 			System.out.println(
-				"CriaÃ§Ã£o inicial do objeto SessionFactory falhou. Erro: " + e);
+				"Criação inicial do objeto SessionFactory falhou. Erro: " + e);
 			throw new ExceptionInInitializerError(e);
 		}
 	}
 	
-	public Session getSessionFactory(){
-		return sessionFactory.openSession();
+	public static SessionFactory getSessionFactory(){
+		return sessionFactory;
+				//.openSession();
 	}
 
 }

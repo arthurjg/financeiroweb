@@ -128,19 +128,19 @@ public class CategoriaRN {
 		Categoria despesas = new Categoria(null, usuario, "DESPESAS", -1);
 		despesas = this.categoriaDAO.salvar(despesas);
 		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Moradia", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "AlimentaÃ§Ã£o", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "VestuÃ¡rio", -1));
+		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Alimentação", -1));
+		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Vestuário", -1));
 		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Deslocamento", -1));
 		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Cuidados Pessoais", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "EducaÃ§Ã£o", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "SaÃºde", -1));
+		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Educação", -1));
+		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Saúde", -1));
 		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Lazer", -1));
 		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Despesas Financeiras", -1));
 
 		Categoria receitas = new Categoria(null, usuario, "RECEITAS", 1);
 		receitas = this.categoriaDAO.salvar(receitas);
-		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "SalÃ¡rio", 1));
-		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "RestituiÃ§Ãµes", 1));
+		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "Salário", 1));
+		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "Restituições", 1));
 		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "Rendimento", 1));
 	}
 }

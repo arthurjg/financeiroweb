@@ -3,6 +3,10 @@ package finnanceiro.rn;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,15 +15,21 @@ import org.junit.Test;
 import financeiro.dao.CategoriaDAO;
 import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
+import financeiro.rn.CategoriaRN;
 import financeiro.rn.UsuarioRN;
 
 public class UsuarioRNTest {
 	
 	UsuarioRN usuarioRN;
+	UsuarioDAO usuarioDAOMock;
+	CategoriaRN categoriaRnMock;
 
 	@Before
 	public void setUp() throws Exception {
-		
+		CategoriaDAO categoriaDaoMock = mock(CategoriaDAO.class);
+		usuarioDAOMock = mock(UsuarioDAO.class);
+		categoriaRnMock = mock(CategoriaRN.class);
+		usuarioRN = new UsuarioRN(usuarioDAOMock, categoriaRnMock);
 	}
 
 	@Test
@@ -31,12 +41,9 @@ public class UsuarioRNTest {
 		String login = "Arthur";
 		int codigo = 9999;		
 		usuarioMock.setLogin(login);
-		usuarioMock.setCodigo(codigo);		
+		usuarioMock.setCodigo(codigo);	
 		
-		CategoriaDAO categoriaDaoMock = mock(CategoriaDAO.class);
-		UsuarioDAO usuarioDAOMock = mock(UsuarioDAO.class);
-		when(usuarioDAOMock.carregar(codigo)).thenReturn(usuarioMock);
-		usuarioRN = new UsuarioRN(usuarioDAOMock, categoriaDaoMock);	
+		when(usuarioDAOMock.carregar(codigo)).thenReturn(usuarioMock);			
 		
 		//executando acao
 		usuario = usuarioRN.carregar(codigo);			
@@ -48,34 +55,95 @@ public class UsuarioRNTest {
 
 	@Test
 	public void testBuscarPorLogin() {
-		fail("Not yet implemented");
+		//montando cenario
+		Usuario usuarioMock = new Usuario();		
+		Usuario usuario = new Usuario();
+		String login = "Arthur";
+		int codigo = 9999;		
+		usuarioMock.setLogin(login);
+		usuarioMock.setCodigo(codigo);	
+				
+		when(usuarioDAOMock.buscarPorLogin(login)).thenReturn(usuarioMock);			
+				
+		//executando acao
+		usuario = usuarioRN.buscarPorLogin(login);			
+				
+		//validando saida
+		Assert.assertEquals(usuario.getCodigo(), usuarioMock.getCodigo());	
+		Assert.assertEquals(usuario.getLogin(), usuarioMock.getLogin());
 	}
 
 	@Test
 	public void testBuscarPorEmail() {
-		fail("Not yet implemented");
+		//montando cenario
+		Usuario usuarioMock = new Usuario();		
+		Usuario usuario = new Usuario();
+		String login = "Arthur";
+		String email = "arthur@gmail.com";
+		int codigo = 9999;		
+		usuarioMock.setLogin(login);
+		usuarioMock.setCodigo(codigo);	
+		usuarioMock.setEmail(email);
+			
+		when(usuarioDAOMock.buscarPorEmail(email)).thenReturn(usuarioMock);			
+				
+		//executando acao
+		usuario = usuarioRN.buscarPorEmail(email);			
+			
+		//validando saida
+		Assert.assertEquals(usuario.getCodigo(), usuarioMock.getCodigo());	
+		Assert.assertEquals(usuario.getLogin(), usuarioMock.getLogin());
+		Assert.assertEquals(usuario.getEmail(), usuarioMock.getEmail());
 	}
 
 	@Test
 	public void testSalvar() {
-		Usuario usuario = new Usuario();
-		Usuario usuarioMock = new Usuario();
+		Usuario usuario = new Usuario();		
 		String login = "Arthur";
-		usuario.setLogin(login);
-		usuarioMock.setLogin(login);
+		usuario.setLogin(login);		
+		
 		usuarioRN.salvar(usuario);
-		usuario = usuarioRN.buscarPorLogin(login);
-		Assert.assertEquals(usuario.getLogin(), usuarioMock.getLogin());		
+		
+		Assert.assertTrue(usuario.getPermissao().contains("ROLE_USUARIO"));
+		verify(usuarioDAOMock).salvar(usuario);	
+		verify(categoriaRnMock).salvaEstruturaPadrao(usuario);
 	}
 
 	@Test
 	public void testExcluir() {
-		fail("Not yet implemented");
+		Usuario usuario = new Usuario();		
+		String login = "Arthur";
+		usuario.setLogin(login);		
+		
+		usuarioRN.excluir(usuario);
+				
+		verify(usuarioDAOMock).excluir(usuario);	
+		verify(categoriaRnMock).excluir(usuario);
 	}
 
 	@Test
-	public void testListar() {
-		fail("Not yet implemented");
+	public void testListar() {	
+		
+		//montando cenario
+		Usuario usuarioA = new Usuario();		
+		Usuario usuarioB = new Usuario();
+		String login = "Arthur";
+		int codigo = 9999;		
+		usuarioA.setLogin(login);
+		usuarioB.setCodigo(codigo);	
+		List<Usuario> usuarios = new ArrayList<>();
+		usuarios.add(usuarioA);
+		usuarios.add(usuarioB);
+				
+		when(usuarioDAOMock.listar()).thenReturn(usuarios);			
+				
+		//executando acao
+		List<Usuario> usuarioTest = usuarioRN.listar();			
+				
+		//validando saida
+		Assert.assertEquals(usuarios.size(), usuarioTest.size());	
+		Assert.assertEquals(usuarios.get(0).getLogin(), usuarioTest.get(0).getLogin());
+		Assert.assertEquals(usuarios.get(1).getCodigo(), usuarioTest.get(1).getCodigo());		
 	}
 
 }

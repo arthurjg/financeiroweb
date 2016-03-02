@@ -6,10 +6,10 @@
 				maxActive="100" 
 				maxIdle="30" 
 				maxWait="10000"
-				username="Art" 
-				password="artgar" 
-				driverClassName="com.ibm.db2.jcc.DB2Driver"
-				url="jdbc:db2://localhost:50000/Finance"/>
+				username="postgres" 
+				password="1234" 
+				driverClassName="org.postgresql.Driver"
+				url="jdbc:postgresql://localhost:5432/Financeiro"/>
 				
 </Context>
 	

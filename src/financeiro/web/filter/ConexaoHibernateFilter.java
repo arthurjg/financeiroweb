@@ -15,14 +15,13 @@ public class ConexaoHibernateFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		this.sf = null;		
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
+		
 		try {
 			this.sf.getCurrentSession().beginTransaction();
 			chain.doFilter(request, response);
@@ -42,10 +41,8 @@ public class ConexaoHibernateFilter implements Filter {
 	}
 
 	@Override
-	public void init(FilterConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-		this.sf = HibernateUtil.getSessionFactory();
-		
+	public void init(FilterConfig config) throws ServletException {		
+		this.sf = HibernateUtil.getSessionFactory();		
 	}
 
 }
