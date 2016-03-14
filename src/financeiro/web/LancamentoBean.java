@@ -56,6 +56,7 @@ import financeiro.rn.LancamentoRN;
 import financeiro.util.RNException;
 import financeiro.util.UtilException;
 import financeiro.web.util.ContextoUtil;
+import financeiro.web.util.RelatorioUtil;
 
 
 @ManagedBean(name = "lancamentoBean")
@@ -67,15 +68,15 @@ public class LancamentoBean {
 	private List<Lancamento>	listaFuturos;
 	private List<Lancamento>	listaMes;
 	private List<Lancamento>	listaMesAnterior;
-	private List<Double>			saldos	= new ArrayList<Double>();
-	private float					saldoGeral;
+	private List<Double>		saldos	= new ArrayList<Double>();
+	private float				saldoGeral;
 
 	private Lancamento			editado	= new Lancamento();
 	private Integer				numeroCheque;
 	private Integer				periodo;
 
-	private java.util.Date		dataInicialRelatorio;
-	private java.util.Date		dataFinalRelatorio;
+	private Date				dataInicialRelatorio;
+	private Date				dataFinalRelatorio;
 	private StreamedContent		arquivoRetorno;
 	
 	public LancamentoBean() {
@@ -283,7 +284,7 @@ public class LancamentoBean {
 		}
 	}
 	
-	/*public StreamedContent getArquivoRetorno() {
+	public StreamedContent getArquivoRetorno() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ContextoBean contextoBean = ContextoUtil.getContextoBean();
 		String usuario = contextoBean.getUsuarioLogado().getLogin();
@@ -296,7 +297,7 @@ public class LancamentoBean {
 		Date dataSaldo = new Date(calendario.getTimeInMillis());
 		RelatorioUtil relatorioUtil = new RelatorioUtil();
 
-		HashMap parametrosRelatorio = new HashMap();
+		HashMap<String, Object> parametrosRelatorio = new HashMap<String, Object>();
 		parametrosRelatorio.put("codigoUsuario", contextoBean.getUsuarioLogado().getCodigo());
 		parametrosRelatorio.put("numeroConta", contextoBean.getContaAtiva().getConta());
 		parametrosRelatorio.put("dataInicial", this.getDataInicialRelatorio());
@@ -306,11 +307,11 @@ public class LancamentoBean {
 		try {
 			this.arquivoRetorno = relatorioUtil.geraRelatorio(parametrosRelatorio, nomeRelatorioJasper, nomeRelatorioSaida, RelatorioUtil.RELATORIO_PDF);
 		} catch (UtilException e) {
-			context.addMessage(null, new FacesMessage("NÃ£o foi possÃ­vel gerar o relatÃ³rio. Erro: " + e.getMessage()));
+			context.addMessage(null, new FacesMessage("Não foi possível gerar o relatório. Erro: " + e.getMessage()));
 			return null;
 		} 
 		return this.arquivoRetorno;
-	}*/
+	}
 
 	public float getSaldoGeral() {
 		return saldoGeral;
