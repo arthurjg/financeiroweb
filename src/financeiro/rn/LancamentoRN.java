@@ -39,6 +39,7 @@ import financeiro.model.Conta;
 import financeiro.model.Lancamento;
 import financeiro.util.DAOFactory;
 
+@Stateless
 public class LancamentoRN {
 
 	private LancamentoDAO	lancamentoDAO;

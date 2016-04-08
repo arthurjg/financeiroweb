@@ -42,6 +42,7 @@ import financeiro.model.Lancamento;
 import financeiro.util.DAOFactory;
 import financeiro.util.RNException;
 
+@Stateless
 public class ChequeRN {
 
 	private ChequeDAO	chequeDAO;

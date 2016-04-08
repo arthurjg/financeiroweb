@@ -39,6 +39,7 @@ import financeiro.model.Categoria;
 import financeiro.model.Usuario;
 import financeiro.util.DAOFactory;
 
+@Stateless
 public class CategoriaRN {
 
 	private CategoriaDAO	categoriaDAO;

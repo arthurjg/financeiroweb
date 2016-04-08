@@ -6,6 +6,7 @@ import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
 import financeiro.util.DAOFactory;
 
+@Stateless
 public class UsuarioRN {
 	
 	private UsuarioDAO usuarioDAO;

@@ -8,6 +8,7 @@ import financeiro.model.Conta;
 import financeiro.model.Usuario;
 import financeiro.util.DAOFactory;
 
+@Stateless
 public class ContaRN {
 
 	private ContaDAO contaDAO;
