@@ -7,9 +7,11 @@
 	
 		<!-- Configuração da conexão com o Banco MySQL e dialeto -->
 		
-		<!--<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
-		-->
+		<!--
 		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		-->
+		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
 		<property name="current_session_context_class">thread</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="connection.datasource">java:/comp/env/jdbc/FinanceiroDB</property>
