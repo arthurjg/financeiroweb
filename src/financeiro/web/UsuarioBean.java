@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
@@ -16,6 +17,8 @@ import financeiro.rn.UsuarioRN;
 @RequestScoped
 public class UsuarioBean {
 	
+	@Inject
+	private UsuarioRN usuarioRN;
 	private Usuario usuario;
 	private String confirmarSenha;
 	private List<Usuario> lista;
@@ -49,7 +52,7 @@ public class UsuarioBean {
 			return null;
 		}
 		
-		UsuarioRN usuarioRN = new UsuarioRN();
+		
 		usuarioRN.salvar( this.usuario);
 		
 		if (this.conta.getDescricao() != null) {
@@ -63,7 +66,7 @@ public class UsuarioBean {
 	}
 	
 	public String excluir() {
-		UsuarioRN usuarioRN = new UsuarioRN();
+		
 		usuarioRN.excluir(this.usuario);
 		this.lista = null;
 		return null;
@@ -75,7 +78,7 @@ public class UsuarioBean {
 		else
 			this.usuario.setAtivo(true);
 
-		UsuarioRN usuarioRN = new UsuarioRN();
+		
 		usuarioRN.salvar(this.usuario);
 		return null;
 	}
@@ -96,7 +99,7 @@ public class UsuarioBean {
 	
 	public List<Usuario> getLista() {
 		if (this.lista == null) {
-			UsuarioRN usuarioRN = new UsuarioRN();
+			
 			this.lista = usuarioRN.listar();
 		}
 		return this.lista;

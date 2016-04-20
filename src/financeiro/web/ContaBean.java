@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.primefaces.model.StreamedContent;
 
@@ -21,7 +22,9 @@ import financeiro.web.util.RelatorioUtil;
 @ManagedBean(name = "contaBean")
 @RequestScoped
 public class ContaBean {
-
+	
+	@Inject
+	private ContaRN contaRN;
 	private Conta				selecionada	= new Conta();
 	private List<Conta>		lista			= null;
 	private StreamedContent	arquivoRetorno;
@@ -32,7 +35,7 @@ public class ContaBean {
 		ContextoBean contextoBean = ContextoUtil.getContextoBean();		
 		Usuario usuariologado = contextoBean.getUsuarioLogado();
 		this.selecionada.setUsuario( usuariologado );
-		ContaRN contaRN = new ContaRN();
+		
 		contaRN.salvar(this.selecionada);
 		this.selecionada = new Conta();
 		this.lista = null;		
@@ -40,14 +43,14 @@ public class ContaBean {
 	}
 
 	public void excluir() { //1
-		ContaRN contaRN = new ContaRN();
+		
 		contaRN.excluir(this.selecionada);
 		this.selecionada = new Conta();
 		this.lista = null;
 	}
 
 	public void tornarFavorita() { //3
-		ContaRN contaRN = new ContaRN();
+		
 		contaRN.tornarFavorita(this.selecionada);
 		this.selecionada = new Conta();
 	}
@@ -56,7 +59,7 @@ public class ContaBean {
 		if (this.lista == null) {
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
 
-			ContaRN contaRN = new ContaRN();
+			
 			this.lista = contaRN.listar(contextoBean.getUsuarioLogado());
 		}
 		return this.lista;

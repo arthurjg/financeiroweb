@@ -10,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
@@ -19,6 +20,11 @@ import financeiro.rn.UsuarioRN;
 @ManagedBean(name = "contextoBean")
 @SessionScoped
 public class ContextoBean {
+	
+	@Inject
+	UsuarioRN usuarioRN;
+	@Inject
+	ContaRN contaRN;
 
 	private Usuario	   usuarioLogado	= null;
 	private Conta	      contaAtiva	  = null;
@@ -33,7 +39,7 @@ public class ContextoBean {
 		if (this.usuarioLogado == null || !login.equals(this.usuarioLogado.getLogin())) {
 
 			if (login != null) {
-				UsuarioRN usuarioRN = new UsuarioRN();
+				
 				this.usuarioLogado = usuarioRN.buscarPorLogin(login);
 				this.contaAtiva = null;
 
@@ -47,9 +53,7 @@ public class ContextoBean {
 
 	public Conta getContaAtiva() {
 		if (this.contaAtiva == null) {
-			Usuario usuario = this.getUsuarioLogado();
-
-			ContaRN contaRN = new ContaRN();
+			Usuario usuario = this.getUsuarioLogado();			
 			this.contaAtiva = contaRN.buscarFavorita(usuario);
 
 			if (this.contaAtiva == null) {
@@ -66,10 +70,7 @@ public class ContextoBean {
 	}
 
 	public void setContaAtiva(ValueChangeEvent event) {
-
-		Integer conta = (Integer) event.getNewValue();
-
-		ContaRN contaRN = new ContaRN();
+		Integer conta = (Integer) event.getNewValue();		
 		this.contaAtiva = contaRN.carregar(conta);
 	}
 
@@ -94,7 +95,7 @@ public class ContextoBean {
 	}
 
 	public void setIdiomaUsuario(String idioma) {
-		UsuarioRN usuarioRN = new UsuarioRN();
+		
 		this.usuarioLogado = usuarioRN.carregar(this.getUsuarioLogado().getCodigo());
 		this.usuarioLogado.setIdioma(idioma);
 		usuarioRN.salvar(this.usuarioLogado);

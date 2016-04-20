@@ -43,6 +43,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 
 import org.primefaces.model.StreamedContent;
 
@@ -62,6 +63,9 @@ import financeiro.web.util.RelatorioUtil;
 @ManagedBean(name = "lancamentoBean")
 @ViewScoped
 public class LancamentoBean {
+	
+	@Inject
+	private LancamentoRN lancamentoRN;
 
 	private List<Lancamento>	lista;
 	private List<Lancamento>	listaAteHoje;
@@ -130,14 +134,14 @@ public class LancamentoBean {
 				chequeRN.baixarCheque(chequeId, this.editado);
 			}
 		}
-		LancamentoRN lancamentoRN = new LancamentoRN();
+		
 		lancamentoRN.salvar(this.editado);
 		this.novo();
 		this.lista = null;
 	}
 
 	public void excluir() {
-		LancamentoRN lancamentoRN = new LancamentoRN();
+		
 		this.editado = lancamentoRN.carregar(this.editado.getLancamento());
 		lancamentoRN.excluir(this.editado);
 		this.lista = null;
@@ -179,7 +183,7 @@ public class LancamentoBean {
 			Calendar inicio = new GregorianCalendar();
 			inicio.add(Calendar.MONTH, -1);
 
-			LancamentoRN lancamentoRN = new LancamentoRN();
+			
 			this.saldoGeral = lancamentoRN.saldo(conta, dataSaldo.getTime());
 			this.lista = lancamentoRN.listar(conta, inicio.getTime(), null);
 
@@ -201,7 +205,7 @@ public class LancamentoBean {
 
 			Calendar hoje = new GregorianCalendar();
 
-			LancamentoRN lancamentoRN = new LancamentoRN();
+			
 			this.listaAteHoje = lancamentoRN.listar(conta, null, hoje.getTime());
 		}
 		return this.listaAteHoje;
@@ -215,7 +219,7 @@ public class LancamentoBean {
 			Calendar amanha = new GregorianCalendar();
 			amanha.add(Calendar.DAY_OF_MONTH, 1);
 
-			LancamentoRN lancamentoRN = new LancamentoRN();
+			
 			this.listaFuturos = lancamentoRN.listar(conta, amanha.getTime(), null);
 		}
 		return this.listaFuturos;
@@ -235,7 +239,7 @@ public class LancamentoBean {
 			dataSaldo.add(Calendar.MONTH, -1);
 			dataSaldo.add(Calendar.DAY_OF_MONTH, -1);
 
-			LancamentoRN lancamentoRN = new LancamentoRN();
+			
 			this.listaMes = lancamentoRN.listar(conta, diaPrimeiroDoMes.getTime(), diaUltimoDoMes.getTime());
 			this.saldoGeral = lancamentoRN.saldo(conta, dataSaldo.getTime());
 			
@@ -262,7 +266,7 @@ public class LancamentoBean {
 			diaPrimeiroDoMes.set(Calendar.DAY_OF_MONTH, 1);
 			diaUltimoDoMes.set(Calendar.DAY_OF_MONTH, 30);
 
-			LancamentoRN lancamentoRN = new LancamentoRN();
+			
 			this.listaMesAnterior = lancamentoRN.listar(conta, diaPrimeiroDoMes.getTime(), diaUltimoDoMes.getTime());
 		}
 		return this.listaMesAnterior;
@@ -290,7 +294,7 @@ public class LancamentoBean {
 		String usuario = contextoBean.getUsuarioLogado().getLogin();
 		String nomeRelatorioJasper = "extrato";
 		String nomeRelatorioSaida = usuario + "_extrato";
-		LancamentoRN lancamentoRN = new LancamentoRN();
+		
 		GregorianCalendar calendario = new GregorianCalendar();
 		calendario.setTime(this.getDataInicialRelatorio());
 		calendario.add(Calendar.DAY_OF_MONTH, -1);

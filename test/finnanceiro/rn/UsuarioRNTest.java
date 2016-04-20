@@ -26,7 +26,8 @@ public class UsuarioRNTest {
 	public void setUp() throws Exception {		
 		usuarioDAOMock = mock(UsuarioDAO.class);
 		categoriaRnMock = mock(CategoriaRN.class);
-		usuarioRN = new UsuarioRN(usuarioDAOMock, categoriaRnMock);
+		//TODO REFATORAR
+		//usuarioRN = new UsuarioRN(usuarioDAOMock, categoriaRnMock);
 	}
 
 	@Test

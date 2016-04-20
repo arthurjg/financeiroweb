@@ -37,6 +37,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import financeiro.model.Cheque;
 import financeiro.model.Conta;
@@ -48,7 +49,9 @@ import financeiro.web.util.MensagemUtil;
 @ManagedBean(name="chequeBean")
 @RequestScoped
 public class ChequeBean {
-
+	
+	@Inject
+	ChequeRN chequeRN;
 	private Cheque				selecionado	= new Cheque();
 	private List<Cheque>	lista				= null;
 	private Integer				chequeInicial;
@@ -69,7 +72,7 @@ public class ChequeBean {
 			FacesMessage msg = new FacesMessage(texto);
 			context.addMessage(null, msg);
 		} else {
-			ChequeRN chequeRN = new ChequeRN();
+			
 			totalCheques = chequeRN.salvarSequencia(conta, this.chequeInicial, this.chequeFinal);
 			String texto = MensagemUtil.getMensagem("cheque_info_cadastro", this.chequeFinal, totalCheques);
 			FacesMessage msg = new FacesMessage(texto);
@@ -79,7 +82,7 @@ public class ChequeBean {
 	}
 
 	public void excluir() {
-		ChequeRN chequeRN = new ChequeRN();
+		
 		try {
 			chequeRN.excluir(this.selecionado);
 		} catch (RNException e) {
@@ -93,7 +96,7 @@ public class ChequeBean {
 	}
 
 	public void cancelar() {
-		ChequeRN chequeRN = new ChequeRN();
+		
 		try {
 			chequeRN.cancelarCheque(this.selecionado);
 		} catch (RNException e) {
@@ -111,7 +114,7 @@ public class ChequeBean {
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
 			Conta conta = contextoBean.getContaAtiva();
 
-			ChequeRN chequeRN = new ChequeRN();
+			
 			this.lista = chequeRN.listar(conta);
 		}
 		return this.lista;

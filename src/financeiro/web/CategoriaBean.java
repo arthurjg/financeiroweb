@@ -37,6 +37,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
@@ -49,7 +50,9 @@ import financeiro.web.util.ContextoUtil;
 @ManagedBean(name = "categoriaBean")
 @RequestScoped
 public class CategoriaBean {
-
+	
+	@Inject
+	private CategoriaRN categoriaRN;
 	private TreeNode	       categoriasTree;
 	private Categoria	       editada	     = new Categoria();
 	private List<SelectItem>	categoriasSelect;
@@ -58,7 +61,7 @@ public class CategoriaBean {
 	public void novo() {
 		Categoria pai = null;
 		if (this.editada.getCodigo() != null) {
-			CategoriaRN categoriaRN = new CategoriaRN();
+			
 			pai = categoriaRN.carregar(this.editada.getCodigo());
 		}
 		this.editada = new Categoria();
@@ -80,7 +83,7 @@ public class CategoriaBean {
 	public void salvar() {
 		ContextoBean contextoBean = ContextoUtil.getContextoBean();
 
-		CategoriaRN categoriaRN = new CategoriaRN();
+		
 		this.editada.setUsuario(contextoBean.getUsuarioLogado());
 		categoriaRN.salvar(this.editada);
 
@@ -91,7 +94,7 @@ public class CategoriaBean {
 	}
 
 	public void excluir() {
-		CategoriaRN categoriaRN = new CategoriaRN();
+		
 		categoriaRN.excluir(this.editada);
 		this.editada = null;
 
@@ -104,7 +107,7 @@ public class CategoriaBean {
 		if (this.categoriasTree == null) {
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
 
-			CategoriaRN categoriaRN = new CategoriaRN();
+			
 			List<Categoria> categorias = categoriaRN.listar(contextoBean.getUsuarioLogado());
 
 			this.categoriasTree = new DefaultTreeNode(null, null);
@@ -128,7 +131,7 @@ public class CategoriaBean {
 			this.categoriasSelect = new ArrayList<SelectItem>();
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
 
-			CategoriaRN categoriaRN = new CategoriaRN();
+			
 			List<Categoria> categorias = categoriaRN.listar(contextoBean.getUsuarioLogado());
 			this.montaDadosSelect(this.categoriasSelect, categorias, "");
 		}
