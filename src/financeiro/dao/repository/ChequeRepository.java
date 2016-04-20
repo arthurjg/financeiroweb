@@ -1,6 +1,6 @@
 /*
- * Código-fonte do livro "Programação Java para a Web"
- * Autores: Décio Heinzelmann Luckow <decioluckow@gmail.com>
+ * Cï¿½digo-fonte do livro "Programaï¿½ï¿½o Java para a Web"
+ * Autores: Dï¿½cio Heinzelmann Luckow <decioluckow@gmail.com>
  *          Alexandre Altair de Melo <alexandremelo.br@gmail.com>
  *
  * ISBN: 978-85-7522-238-6
@@ -8,14 +8,14 @@
  * http://www.novatec.com.br/livros/javaparaweb
  * Editora Novatec, 2010 - todos os direitos reservados
  *
- * LICENÇA: Este arquivo-fonte está sujeito a Atribuição 2.5 Brasil, da licença Creative Commons,
- * que encontra-se disponível no seguinte endereço URI: http://creativecommons.org/licenses/by/2.5/br/
- * Se você não recebeu uma cópia desta licença, e não conseguiu obtê-la pela internet, por favor,
- * envie uma notificação aos seus autores para que eles possam enviá-la para você imediatamente.
+ * LICENï¿½A: Este arquivo-fonte estï¿½ sujeito a Atribuiï¿½ï¿½o 2.5 Brasil, da licenï¿½a Creative Commons,
+ * que encontra-se disponï¿½vel no seguinte endereï¿½o URI: http://creativecommons.org/licenses/by/2.5/br/
+ * Se vocï¿½ nï¿½o recebeu uma cï¿½pia desta licenï¿½a, e nï¿½o conseguiu obtï¿½-la pela internet, por favor,
+ * envie uma notificaï¿½ï¿½o aos seus autores para que eles possam enviï¿½-la para vocï¿½ imediatamente.
  *
  *
- * Source-code of "Programação Java para a Web" book
- * Authors: Décio Heinzelmann Luckow <decioluckow@gmail.com>
+ * Source-code of "Programaï¿½ï¿½o Java para a Web" book
+ * Authors: Dï¿½cio Heinzelmann Luckow <decioluckow@gmail.com>
  *          Alexandre Altair de Melo <alexandremelo.br@gmail.com>
  *
  * ISBN: 978-85-7522-238-6
@@ -29,9 +29,13 @@
  * send a note to the authors so they can mail you a copy immediately.
  *
  */
-package financeiro.dao.hibernate;
+package financeiro.dao.repository;
 
 import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -42,12 +46,16 @@ import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
 import financeiro.model.Conta;
 
-public class ChequeDAOHibernate extends HibernateDAO implements ChequeDAO {
+@Stateless
+public class ChequeRepository implements ChequeDAO {
 
+	@PersistenceContext
+	private EntityManager manager;
 	private Session	session;
+	
 
-	public void setSession(Session session) {
-		this.session = session;
+	public ChequeRepository() {
+		this.session = manager.unwrap(Session.class);	
 	}
 
 	@Override

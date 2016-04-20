@@ -4,51 +4,51 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
-import financeiro.dao.ContaDAO;
+import financeiro.dao.repository.ContaRepository;
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
-import financeiro.util.DAOFactory;
 
 @Stateless
 public class ContaRN {
+	
+	@Inject
+	private ContaRepository contaRepository;
 
-	private ContaDAO contaDAO;
-
-	public ContaRN() {
-		this.contaDAO = DAOFactory.criarContaDAO();
+	public ContaRN() {		
 	}
 
 	public List<Conta> listar(Usuario usuario) {		
-		return somarSaldoLista(this.contaDAO.listar(usuario));
+		return somarSaldoLista(this.contaRepository.listar(usuario));
 	}
 
 	public Conta carregar(Integer conta) {
-		return this.contaDAO.carregar(conta);
+		return this.contaRepository.carregar(conta);
 	}
 
 	public void salvar(Conta conta) {
 		conta.setDataCadastro(new Date());
-		this.contaDAO.salvar(conta);
+		this.contaRepository.salvar(conta);
 	}
 
 	public void excluir(Conta conta) {
-		this.contaDAO.excluir(conta);
+		this.contaRepository.excluir(conta);
 	}
 
 	public void tornarFavorita(Conta contaFavorita) { 
 		Conta conta = this.buscarFavorita(contaFavorita.getUsuario());
 		if (conta != null) {
 			conta.setFavorita(false);
-			this.contaDAO.salvar(conta);
+			this.contaRepository.salvar(conta);
 		}
 
 		contaFavorita.setFavorita(true);
-		this.contaDAO.salvar(contaFavorita);
+		this.contaRepository.salvar(contaFavorita);
 	}
 
 	public Conta buscarFavorita(Usuario usuario) {
-		return this.contaDAO.buscarFavorita(usuario);
+		return this.contaRepository.buscarFavorita(usuario);
 	}
 	
 	public List<Conta> somarSaldoLista(List<Conta> lista) {

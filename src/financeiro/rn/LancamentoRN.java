@@ -35,40 +35,40 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
-import financeiro.dao.LancamentoDAO;
+import financeiro.dao.repository.LancamentoRepository;
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
-import financeiro.util.DAOFactory;
 
 @Stateless
 public class LancamentoRN {
+	
+	@Inject
+	private LancamentoRepository	lancamentoRepository;
 
-	private LancamentoDAO	lancamentoDAO;
-
-	public LancamentoRN() {
-		this.lancamentoDAO = DAOFactory.criarLancamentoDAO();
+	public LancamentoRN() {		
 	}
 
 	public void salvar(Lancamento lancamento) {
-		this.lancamentoDAO.salvar(lancamento);
+		this.lancamentoRepository.salvar(lancamento);
 	}
 
 	public void excluir(Lancamento lancamento) {
-		this.lancamentoDAO.excluir(lancamento);
+		this.lancamentoRepository.excluir(lancamento);
 	}
 
 	public Lancamento carregar(Integer lancamento) {
-		return this.lancamentoDAO.carregar(lancamento);
+		return this.lancamentoRepository.carregar(lancamento);
 	}
 
 	public float saldo(Conta conta, Date data) { 
 		float saldoInicial = conta.getSaldoInicial();
-		float saldoNaData = this.lancamentoDAO.saldo(conta, data);
+		float saldoNaData = this.lancamentoRepository.saldo(conta, data);
 		return saldoInicial + saldoNaData;
 	}
 
 	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim) { 
-		return this.lancamentoDAO.listar(conta, dataInicio, dataFim);
+		return this.lancamentoRepository.listar(conta, dataInicio, dataFim);
 	}
 }

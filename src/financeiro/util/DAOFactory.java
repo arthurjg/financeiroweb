@@ -29,47 +29,48 @@
  * send a note to the authors so they can mail you a copy immediately.
  *
  */
-package financeiro.dao.hibernate;
+package financeiro.util;
 
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-
+import financeiro.dao.CategoriaDAO;
 import financeiro.dao.ChequeDAO;
-import financeiro.model.Cheque;
-import financeiro.model.ChequeId;
-import financeiro.model.Conta;
+import financeiro.dao.ContaDAO;
+import financeiro.dao.LancamentoDAO;
+import financeiro.dao.UsuarioDAO;
+import financeiro.dao.hibernate.CategoriaDAOHibernate;
+import financeiro.dao.hibernate.ChequeDAOHibernate;
+import financeiro.dao.hibernate.ContaDAOHibernate;
+import financeiro.dao.hibernate.LancamentoDAOHibernate;
+import financeiro.dao.hibernate.UsuarioDAOHibernate;
 
-public class ChequeDAOHibernate extends HibernateDAO implements ChequeDAO {
+public class DAOFactory {
 
-	private Session	session;
-
-	public void setSession(Session session) {
-		this.session = session;
+	public static UsuarioDAO criarUsuarioDAO() {
+		UsuarioDAOHibernate usuarioDAO = new UsuarioDAOHibernate();
+		usuarioDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return usuarioDAO;
 	}
 
-	@Override
-	public void salvar(Cheque cheque) {
-		this.session.saveOrUpdate(cheque);
+	public static CategoriaDAO criarCategoriaDAO() {
+		CategoriaDAOHibernate categoriaDAO = new CategoriaDAOHibernate();
+		categoriaDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return categoriaDAO;
 	}
 
-	@Override
-	public void excluir(Cheque cheque) {
-		this.session.delete(cheque);
+	public static ContaDAO criarContaDAO() {
+		ContaDAOHibernate contaDAO = new ContaDAOHibernate();
+		contaDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return contaDAO;
+	}
+	
+	public static LancamentoDAO criarLancamentoDAO() {
+		LancamentoDAOHibernate lancamentoDAO = new LancamentoDAOHibernate();
+		lancamentoDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return lancamentoDAO;
 	}
 
-	@Override
-	public Cheque carregar(ChequeId chequeId) {
-		return (Cheque) this.session.get(Cheque.class, chequeId);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Cheque> listar(Conta conta) {
-		Criteria criteria = this.session.createCriteria(Cheque.class);
-		criteria.add(Restrictions.eq("conta", conta));
-		return criteria.list();
-	}
+	public static ChequeDAO criarChequeDAO() {
+		ChequeDAOHibernate chequeDAO = new ChequeDAOHibernate();
+		chequeDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return chequeDAO;
+	}	
 }

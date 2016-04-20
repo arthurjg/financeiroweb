@@ -35,27 +35,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
-import financeiro.dao.CategoriaDAO;
+import financeiro.dao.repository.CategoriaRepository;
 import financeiro.model.Categoria;
 import financeiro.model.Usuario;
-import financeiro.util.DAOFactory;
 
 @Stateless
 public class CategoriaRN {
+	
+	@Inject
+	private CategoriaRepository	categoriaRepository;
 
-	private CategoriaDAO	categoriaDAO;
-
-	public CategoriaRN() {
-		this.categoriaDAO = DAOFactory.criarCategoriaDAO();
+	public CategoriaRN() {		
 	}
 
-	public CategoriaRN(CategoriaDAO categoriaDAO) {
-		this.categoriaDAO = categoriaDAO;
+	public CategoriaRN(CategoriaRepository categoriaRepository) {
+		this.categoriaRepository = categoriaRepository;
 	}
 
 	public List<Categoria> listar(Usuario usuario) {
-		return this.categoriaDAO.listar(usuario);
+		return this.categoriaRepository.listar(usuario);
 	}
 
 	public Categoria salvar(Categoria categoria) {
@@ -69,7 +69,7 @@ public class CategoriaRN {
 		boolean mudouFator = pai.getFator() != categoria.getFator();
 
 		categoria.setFator(pai.getFator());
-		categoria = this.categoriaDAO.salvar(categoria);
+		categoria = this.categoriaRepository.salvar(categoria);
 
 		if (mudouFator) {
 			categoria = this.carregar(categoria.getCodigo());
@@ -83,7 +83,7 @@ public class CategoriaRN {
 		if (categoria.getFilhos() != null) {
 			for (Categoria filho : categoria.getFilhos()) {
 				filho.setFator(fator);
-				this.categoriaDAO.salvar(filho);
+				this.categoriaRepository.salvar(filho);
 				this.replicarFator(filho, fator);
 			}
 		}
@@ -94,18 +94,18 @@ public class CategoriaRN {
 		//OrcamentoRN orcamentoRN = new OrcamentoRN();
 		//orcamentoRN.excluir(categoria);
 
-		this.categoriaDAO.excluir(categoria);
+		this.categoriaRepository.excluir(categoria);
 	}
 	
 	public void excluir(Usuario usuario) {
 		List<Categoria> lista = this.listar(usuario);
 		for (Categoria categoria:lista) {
-			this.categoriaDAO.excluir(categoria);
+			this.categoriaRepository.excluir(categoria);
 		}
 	}
 
 	public Categoria carregar(Integer categoria) {
-		return this.categoriaDAO.carregar(categoria);
+		return this.categoriaRepository.carregar(categoria);
 	}
 	
 	public List<Integer> carregarCodigos(Integer categoria) {
@@ -129,21 +129,21 @@ public class CategoriaRN {
 	public void salvaEstruturaPadrao(Usuario usuario) {
 
 		Categoria despesas = new Categoria(null, usuario, "DESPESAS", -1);
-		despesas = this.categoriaDAO.salvar(despesas);
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Moradia", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Alimentação", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Vestuário", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Deslocamento", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Cuidados Pessoais", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Educação", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Saúde", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Lazer", -1));
-		this.categoriaDAO.salvar(new Categoria(despesas, usuario, "Despesas Financeiras", -1));
+		despesas = this.categoriaRepository.salvar(despesas);
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Moradia", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Alimentação", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Vestuário", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Deslocamento", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Cuidados Pessoais", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Educação", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Saúde", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Lazer", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Despesas Financeiras", -1));
 
 		Categoria receitas = new Categoria(null, usuario, "RECEITAS", 1);
-		receitas = this.categoriaDAO.salvar(receitas);
-		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "Salário", 1));
-		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "Restituições", 1));
-		this.categoriaDAO.salvar(new Categoria(receitas, usuario, "Rendimento", 1));
+		receitas = this.categoriaRepository.salvar(receitas);
+		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Salário", 1));
+		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Restituições", 1));
+		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Rendimento", 1));
 	}
 }

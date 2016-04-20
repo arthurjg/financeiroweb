@@ -36,25 +36,23 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
-import financeiro.dao.ChequeDAO;
+import financeiro.dao.repository.ChequeRepository;
 import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
-import financeiro.util.DAOFactory;
 import financeiro.util.RNException;
 
 @Stateless
 public class ChequeRN {
 
-	private ChequeDAO	chequeDAO;
+	private ChequeRepository	chequeRepository;
 
-	public ChequeRN() {
-		this.chequeDAO = DAOFactory.criarChequeDAO();
+	public ChequeRN() {		
 	}
 
 	public void salvar(Cheque cheque) {
-		this.chequeDAO.salvar(cheque);
+		this.chequeRepository.salvar(cheque);
 	}
 
 	public int salvarSequencia(Conta conta, Integer chequeInicial, Integer chequeFinal) {
@@ -83,24 +81,24 @@ public class ChequeRN {
 
 	public void excluir(Cheque cheque) throws RNException {
 		if (cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_NAO_EMITIDO) {
-			this.chequeDAO.excluir(cheque);
+			this.chequeRepository.excluir(cheque);
 		} else {
 			throw new RNException("N�o � poss�vel excluir cheque, status n�o permitido para opera��o.");
 		}
 	}
 
 	public Cheque carregar(ChequeId chequeId) {
-		return this.chequeDAO.carregar(chequeId);
+		return this.chequeRepository.carregar(chequeId);
 	}
 
 	public List<Cheque> listar(Conta conta) {
-		return this.chequeDAO.listar(conta);
+		return this.chequeRepository.listar(conta);
 	}
 
 	public void cancelarCheque(Cheque cheque) throws RNException {
 		if (cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_NAO_EMITIDO || cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_CANCELADO) {
 			cheque.setSituacao(Cheque.SITUACAO_CHEQUE_CANCELADO);
-			this.chequeDAO.salvar(cheque);
+			this.chequeRepository.salvar(cheque);
 		} else {
 			throw new RNException("N�o � poss�vel cancelar cheque, status n�o permitido para opera��o.");
 		}
@@ -111,7 +109,7 @@ public class ChequeRN {
 		if (cheque != null) {
 			cheque.setSituacao(Cheque.SITUACAO_CHEQUE_BAIXADO);
 			cheque.setLancamento(lancamento);
-			this.chequeDAO.salvar(cheque);
+			this.chequeRepository.salvar(cheque);
 		}
 	}
 

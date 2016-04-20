@@ -29,47 +29,27 @@
  * send a note to the authors so they can mail you a copy immediately.
  *
  */
-package financeiro.dao.hibernate;
+package financeiro.util;
 
-import java.util.List;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+public class HibernateUtil {
 
-import financeiro.dao.ChequeDAO;
-import financeiro.model.Cheque;
-import financeiro.model.ChequeId;
-import financeiro.model.Conta;
+	private static final SessionFactory	sessionFactory	= buildSessionFactory();
 
-public class ChequeDAOHibernate extends HibernateDAO implements ChequeDAO {
+	private static SessionFactory buildSessionFactory() {
+		try {
+			AnnotationConfiguration cfg = new AnnotationConfiguration();
+			cfg.configure("hibernate.cfg.xml");
+			return cfg.buildSessionFactory();
+		} catch (Throwable e) {
+			System.out.println("Criação inicial do objeto SessionFactory falhou. Erro: " + e);
+			throw new ExceptionInInitializerError(e);
+		}
+	} 
 
-	private Session	session;
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
-
-	@Override
-	public void salvar(Cheque cheque) {
-		this.session.saveOrUpdate(cheque);
-	}
-
-	@Override
-	public void excluir(Cheque cheque) {
-		this.session.delete(cheque);
-	}
-
-	@Override
-	public Cheque carregar(ChequeId chequeId) {
-		return (Cheque) this.session.get(Cheque.class, chequeId);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Cheque> listar(Conta conta) {
-		Criteria criteria = this.session.createCriteria(Cheque.class);
-		criteria.add(Restrictions.eq("conta", conta));
-		return criteria.list();
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 }
