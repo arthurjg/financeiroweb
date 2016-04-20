@@ -34,6 +34,8 @@ package financeiro.rn;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import financeiro.dao.LancamentoDAO;
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;

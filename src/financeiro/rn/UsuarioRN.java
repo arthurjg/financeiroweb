@@ -2,6 +2,8 @@ package financeiro.rn;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
 import financeiro.util.DAOFactory;

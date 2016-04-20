@@ -33,6 +33,9 @@ package financeiro.dao.hibernate;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -44,10 +47,13 @@ import financeiro.model.Conta;
 
 public class ChequeDAOHibernate implements ChequeDAO {
 
+	@PersistenceContext
+	private EntityManager manager;
 	private Session	session;
+	
 
-	public void setSession(Session session) {
-		this.session = session;
+	public ChequeDAOHibernate() {
+		this.session = manager.unwrap(Session.class);	
 	}
 
 	@Override

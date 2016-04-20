@@ -6,7 +6,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="financeDS" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>jdbc/K19</jta-data-source>
+		<jta-data-source>jdbc/financeiroDB</jta-data-source>
 	
 		<!-- Configuração da conexão com o Banco e dialeto -->
 		

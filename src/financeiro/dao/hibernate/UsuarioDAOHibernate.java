@@ -2,58 +2,67 @@ package financeiro.dao.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+
+
+import javax.persistence.Query;
 
 import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
 
 public class UsuarioDAOHibernate extends HibernateDAO implements UsuarioDAO {	
 
+	@PersistenceContext
+	private EntityManager manager;
+	
 	@Override
 	public void salvar(Usuario usuario) {		
-		getSession().save(usuario);
+		manager.persist(usuario);
 	}
 	
 	@Override
 	public void atualizar(Usuario usuario) {		
 		if (usuario.getPermissao() == null || usuario.getPermissao().size() == 0) {
 			Usuario usuarioPermissao = this.carregar(usuario.getCodigo());
-			usuario.setPermissao(usuarioPermissao.getPermissao());
-			getSession().evict(usuarioPermissao);
+			usuario.setPermissao(usuarioPermissao.getPermissao());			
+			manager.detach(usuarioPermissao);
 		}
-
-		getSession().update(usuario);
+		//persist?
 	}
 
 	@Override
 	public void excluir(Usuario usuario) {		
-		getSession().delete(usuario);
+		manager.remove(usuario);
 	}
 
 	@Override
 	public Usuario carregar(Integer codigo) {		
-		return (Usuario) getSession().get(Usuario.class, codigo);
+		return (Usuario) manager.find(Usuario.class, codigo);
 	}
 
 	@Override
 	public Usuario buscarPorLogin(String login) {		
 		String hql = "select u from Usuario u where u.login = :login";
-		Query consulta = getSession().createQuery(hql);
-		consulta.setString("login", login);
-		return (Usuario) consulta.uniqueResult();
+		Query consulta = manager.createQuery(hql);
+		consulta.setParameter("login", login);
+		return (Usuario) consulta.getSingleResult();
 	}
 
 	@Override
 	public List<Usuario> listar() {		
-		return getSession().createCriteria(Usuario.class).list();
+		String hql = "select u from Usuario u";
+		Query consulta = manager.createQuery(hql);
+		return (List<Usuario>) consulta.getResultList();
 	}
 
 	@Override
 	public Usuario buscarPorEmail(String email) {		
 		String hql = "select u from Usuario u where u.email = :email";
-		Query consulta = getSession().createQuery(hql);
-		consulta.setString("email", email );
-		return (Usuario) consulta.uniqueResult();
+		Query consulta = manager.createQuery(hql);
+		consulta.setParameter("email", email );
+		return (Usuario) consulta.getSingleResult();
 	}
 
 }

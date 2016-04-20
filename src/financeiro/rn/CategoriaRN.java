@@ -34,6 +34,8 @@ package financeiro.rn;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import financeiro.dao.CategoriaDAO;
 import financeiro.model.Categoria;
 import financeiro.model.Usuario;

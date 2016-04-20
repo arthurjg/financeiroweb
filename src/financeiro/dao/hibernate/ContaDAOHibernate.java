@@ -2,9 +2,13 @@ package financeiro.dao.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import financeiro.dao.ContaDAO;
 import financeiro.model.Conta;
@@ -12,45 +16,61 @@ import financeiro.model.Usuario;
 
 public class ContaDAOHibernate implements ContaDAO {
 
-	private Session	session;
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
+	@PersistenceContext
+	private EntityManager manager;	
 
 	@Override
 	public void excluir(Conta conta) {
-		this.session.delete(conta);
+		manager.remove(conta);
 	}
 
 	@Override
 	public void salvar(Conta conta) {
-		this.session.saveOrUpdate(conta);
+		manager.persist(conta);
 	}
 
 	@Override
 	public Conta carregar(Integer conta) {		
-		return (Conta) this.session.get(Conta.class, conta);
+		return (Conta) manager.find(Conta.class, conta);
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Conta> listar(Usuario usuario) {
 
-		Criteria criteria = this.session.createCriteria(Conta.class);
-		criteria.add(Restrictions.eq("usuario", usuario));
+		CriteriaBuilder criteria = manager.getCriteriaBuilder(); 
+		CriteriaQuery<Conta> criteriaQuery = criteria.createQuery(Conta.class);
+		Root<Conta> root = criteriaQuery.from(Conta.class);
+		criteriaQuery.select(root);
+		
+		Predicate predicate = criteria.equal(root.get("usuario"), usuario);
+		criteriaQuery.where(predicate);
+		
+		TypedQuery<Conta> query = manager.createQuery(criteriaQuery);
+		List<Conta> contas = query.getResultList();		
 
-		return criteria.list();
+		return contas;
+		//TODO FUNCIONA?
 	}
 
 	@Override
 	public Conta buscarFavorita(Usuario usuario) {
+		
+		CriteriaBuilder criteria = manager.getCriteriaBuilder(); 
+		CriteriaQuery<Conta> criteriaQuery = criteria.createQuery(Conta.class);
+		Root<Conta> root = criteriaQuery.from(Conta.class);
+		criteriaQuery.select(root);
+		
+		Predicate predicate = criteria.equal(root.get("usuario"), usuario);
+		Predicate predicate2 = criteria.equal(root.get("favorita"), true);
+		criteriaQuery.where(predicate);
+		criteriaQuery.where(predicate2);
+		
+		TypedQuery<Conta> query = manager.createQuery(criteriaQuery);
+		Conta contaFavorita = query.getSingleResult();	
 
-		Criteria criteria = this.session.createCriteria(Conta.class);
-		criteria.add(Restrictions.eq("usuario", usuario));
-		criteria.add(Restrictions.eq("favorita", true));
-
-		return (Conta) criteria.uniqueResult();
+		return contaFavorita;
+		//TODO FUNCIONA?	
+		
 	}
 }
 

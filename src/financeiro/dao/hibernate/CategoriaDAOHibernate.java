@@ -2,6 +2,9 @@ package financeiro.dao.hibernate;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -10,12 +13,14 @@ import financeiro.model.Categoria;
 import financeiro.model.Usuario;
 
 public class CategoriaDAOHibernate implements CategoriaDAO {
-
+	
+	@PersistenceContext
+	private EntityManager manager;
 	private Session	session;
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
+	
+	public CategoriaDAOHibernate() {
+		this.session = manager.unwrap(Session.class);	
+	}	
 
 	@Override
 	public Categoria salvar(Categoria categoria) {
@@ -23,7 +28,7 @@ public class CategoriaDAOHibernate implements CategoriaDAO {
 		this.session.flush();
 		this.session.clear();
 		return merged;
-	}
+	}	
 
 	@Override
 	public void excluir(Categoria categoria) {

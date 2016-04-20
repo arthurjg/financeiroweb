@@ -43,7 +43,7 @@ import financeiro.rn.CategoriaRN;
 @FacesConverter(forClass = Categoria.class)
 public class CategoriaConverter implements Converter {
 
-	@Override
+	//@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (value != null && value.trim().length() > 0) {
 			Integer codigo = Integer.valueOf(value);
@@ -57,7 +57,7 @@ public class CategoriaConverter implements Converter {
 		return null;
 	}
 
-	@Override
+	//@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
 			Categoria categoria = (Categoria) value;

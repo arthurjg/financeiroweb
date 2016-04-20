@@ -35,8 +35,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+
+
+import javax.persistence.Query;
+
 import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -47,6 +53,8 @@ import financeiro.model.Lancamento;
 
 public class LancamentoDAOHibernate implements LancamentoDAO {
 
+	@PersistenceContext
+	private EntityManager manager;
 	private Session	session;
 
 	public void setSession(Session session) {
@@ -54,20 +62,21 @@ public class LancamentoDAOHibernate implements LancamentoDAO {
 	}
 
 	public void salvar(Lancamento lancamento) {
-		this.session.saveOrUpdate(lancamento);
+		manager.persist(lancamento);
 	}
 
 	public void excluir(Lancamento lancamento) {
-		this.session.delete(lancamento);
+		manager.remove(lancamento);
 	}
 
 	public Lancamento carregar(Integer lancamento) {
-		return (Lancamento) this.session.get(Lancamento.class, lancamento);
+		return (Lancamento)  manager.find(Lancamento.class, lancamento);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim) {
+		this.session = manager.unwrap(Session.class);		
 		Criteria criteria = this.session.createCriteria(Lancamento.class);
 
 		if (dataInicio != null && dataFim != null) {
@@ -97,12 +106,12 @@ public class LancamentoDAOHibernate implements LancamentoDAO {
 		sql.append("   and l.conta = :conta");
 		sql.append("   and l.data <= :data");
 
-		SQLQuery query = this.session.createSQLQuery(sql.toString());
+		Query query = manager.createQuery(sql.toString());
 
 		query.setParameter("conta", conta.getConta());
 		query.setParameter("data", data);
 
-		BigDecimal saldo = (BigDecimal) query.uniqueResult();
+		BigDecimal saldo = (BigDecimal) query.getSingleResult();
 
 		if (saldo != null) {
 			return saldo.floatValue();

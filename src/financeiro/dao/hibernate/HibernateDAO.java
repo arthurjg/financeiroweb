@@ -1,5 +1,8 @@
 package financeiro.dao.hibernate;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -7,19 +10,17 @@ import financeiro.dao.OrmDAO;
 
 public abstract class HibernateDAO implements OrmDAO {
 	
+	@PersistenceContext
+	private EntityManager manager;
 	private SessionFactory sessionFactory;
 	private Session session;
 	
 	public void iniciaTransacao(){
-		if(!session.isOpen()){
-			session = sessionFactory.openSession();
-		}
-		session.beginTransaction();
+		manager.getTransaction().begin();
 	}
 	
 	public void encerraTransacao(){
-		session.getTransaction().commit();
-		session.close();
+		manager.getTransaction().commit();		
 	}
 	
 	public void setSession(Session session) {
