@@ -3,15 +3,16 @@ package financeiro.web.filter;
 import java.io.IOException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.*;
 
 import org.apache.log4j.Logger;
 
+import financeiro.util.EntityManagerFactorySingleton;
+
 public class ConexaoHibernateFilter implements Filter {
 	
-	private static Logger log = Logger.getLogger(ConexaoHibernateFilter.class);
-	@PersistenceContext
+	private static Logger log = Logger.getLogger(ConexaoHibernateFilter.class);	
 	private EntityManager manager;	
 
 	@Override
@@ -41,7 +42,9 @@ public class ConexaoHibernateFilter implements Filter {
 	}
 
 	@Override
-	public void init(FilterConfig config) throws ServletException {		
+	public void init(FilterConfig config) throws ServletException {	
+		EntityManagerFactory emf = EntityManagerFactorySingleton.getInstance();
+		manager = emf.createEntityManager();
 		log.info("iniciando filtro de conexão com Hibernate");				
 	}
 

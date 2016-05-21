@@ -10,7 +10,7 @@ import financeiro.model.Usuario;
 
 @Stateless
 public class UsuarioRN {
-	
+	 
 	@Inject
 	private UsuarioRepository usuarioRepo;
 	private CategoriaRN categoriaRN;

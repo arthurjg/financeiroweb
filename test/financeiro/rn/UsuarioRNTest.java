@@ -1,4 +1,4 @@
-package finnanceiro.rn;
+package financeiro.rn;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -129,7 +129,7 @@ public class UsuarioRNTest {
 		int codigo = 9999;		
 		usuarioA.setLogin(login);
 		usuarioB.setCodigo(codigo);	
-		List<Usuario> usuarios = new ArrayList<>();
+		List<Usuario> usuarios = new ArrayList<Usuario>();
 		usuarios.add(usuarioA);
 		usuarios.add(usuarioB);
 				

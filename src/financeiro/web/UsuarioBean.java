@@ -3,10 +3,11 @@ package financeiro.web;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.*;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
@@ -17,7 +18,7 @@ import financeiro.rn.UsuarioRN;
 @RequestScoped
 public class UsuarioBean {
 	
-	@Inject
+	@EJB
 	private UsuarioRN usuarioRN;
 	private Usuario usuario;
 	private String confirmarSenha;

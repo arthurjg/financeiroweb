@@ -22,9 +22,10 @@ import financeiro.rn.UsuarioRN;
 public class ContextoBean {
 	
 	@Inject
-	UsuarioRN usuarioRN;
+	private UsuarioRN usuarioRN;
+
 	@Inject
-	ContaRN contaRN;
+	private ContaRN contaRN;
 
 	private Usuario	   usuarioLogado	= null;
 	private Conta	      contaAtiva	  = null;
@@ -109,6 +110,22 @@ public class ContextoBean {
 
 	public void setUsuarioLogado(Usuario usuario) {
 		this.usuarioLogado = usuario;
+	}
+	
+	public UsuarioRN getUsuarioRN() {
+		return usuarioRN;
+	}
+
+	public void setUsuarioRN(UsuarioRN usuarioRN) {
+		this.usuarioRN = usuarioRN;
+	}
+
+	public ContaRN getContaRN() {
+		return contaRN;
+	}
+
+	public void setContaRN(ContaRN contaRN) {
+		this.contaRN = contaRN;
 	}
 }
 

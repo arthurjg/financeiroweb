@@ -19,7 +19,14 @@
 	</http>
 
 	<authentication-manager>
-		<authentication-provider>
+		<authentication-provider user-service-ref="applicationUserDetailsService">				
+		</authentication-provider>		
+	</authentication-manager>
+	
+	<b:bean id="applicationUserDetailsService" class="financeiro.web.util.ApplicationUserDetailsService" />
+</b:beans>
+
+<!-- <authentication-provider>
 			<jdbc-user-service data-source-ref="financeiroDataSource"
 				authorities-by-username-query="SELECT u.login, p.permissao 
 											 FROM usuario u, usuario_permissao p 
@@ -28,7 +35,5 @@
 				users-by-username-query="SELECT login, senha, ativo 
 									   FROM usuario 
 									  WHERE login = ?" />
-		</authentication-provider>
-	</authentication-manager>
-</b:beans>
+		</authentication-provider> -->
 

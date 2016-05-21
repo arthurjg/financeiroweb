@@ -66,5 +66,10 @@ public class UsuarioRepository extends ObjectRepository implements UsuarioDAO {
 		consulta.setParameter("email", email );
 		return (Usuario) consulta.getSingleResult();
 	}
+	
+	public void setManager(EntityManager em){
+		this.manager = em;
+		
+	}
 
 }

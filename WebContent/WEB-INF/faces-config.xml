@@ -16,13 +16,7 @@
 			<var>msg</var>
 		</resource-bundle>
 	</application>
-
-	<managed-bean>
-		<managed-bean-name>usuarioBean</managed-bean-name>
-		<managed-bean-class>financeiro.web.UsuarioBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>	
-	
+		
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
