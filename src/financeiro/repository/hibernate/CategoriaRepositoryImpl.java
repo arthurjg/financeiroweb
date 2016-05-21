@@ -1,4 +1,4 @@
-package financeiro.dao.repository;
+package financeiro.repository.hibernate;
 
 import java.util.List;
 
@@ -9,18 +9,18 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import financeiro.dao.CategoriaDAO;
 import financeiro.model.Categoria;
 import financeiro.model.Usuario;
+import financeiro.repository.CategoriaRepository;
 
 @Stateless
-public class CategoriaRepository implements CategoriaDAO {
+public class CategoriaRepositoryImpl implements CategoriaRepository {
 	
 	@PersistenceContext
 	private EntityManager manager;
 	private Session	session;
 	
-	public CategoriaRepository() {
+	public CategoriaRepositoryImpl() {
 		this.session = manager.unwrap(Session.class);	
 	}	
 

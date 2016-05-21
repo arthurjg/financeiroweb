@@ -5,8 +5,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import financeiro.dao.repository.UsuarioRepository;
+import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
+import financeiro.repository.UsuarioRepository;
+import financeiro.repository.hibernate.UsuarioRepositoryImpl;
 
 @Stateless
 public class UsuarioRN {
@@ -22,7 +24,7 @@ public class UsuarioRN {
 		this.usuarioRepo = usuarioRepo;
 	}
 	
-	public UsuarioRN(UsuarioRepository usuarioRepo, CategoriaRN categoriaRN) {		
+	public UsuarioRN(UsuarioRepositoryImpl usuarioRepo, CategoriaRN categoriaRN) {		
 		this.usuarioRepo = usuarioRepo;
 		this.categoriaRN = categoriaRN;
 	}

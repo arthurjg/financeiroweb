@@ -1,20 +1,17 @@
-package financeiro.dao.repository;
+package financeiro.repository.hibernate;
 
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-
-
 import javax.persistence.Query;
 
-import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
+import financeiro.repository.UsuarioRepository;
 
 @Stateless
-public class UsuarioRepository extends ObjectRepository implements UsuarioDAO {	
+public class UsuarioRepositoryImpl extends ObjectRepository implements UsuarioRepository {	
 
 	@PersistenceContext
 	private EntityManager manager;

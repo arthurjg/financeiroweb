@@ -6,9 +6,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import financeiro.dao.repository.ContaRepository;
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
+import financeiro.repository.ContaRepository;
 
 @Stateless
 public class ContaRN {

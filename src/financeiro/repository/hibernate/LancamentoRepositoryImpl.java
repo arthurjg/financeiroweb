@@ -29,7 +29,7 @@
  * send a note to the authors so they can mail you a copy immediately.
  *
  */
-package financeiro.dao.repository;
+package financeiro.repository.hibernate;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -38,9 +38,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-
-
 import javax.persistence.Query;
 
 import org.hibernate.Criteria;
@@ -48,12 +45,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import financeiro.dao.LancamentoDAO;
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
+import financeiro.repository.LancamentoRepository;
 
 @Stateless
-public class LancamentoRepository implements LancamentoDAO {
+public class LancamentoRepositoryImpl implements LancamentoRepository {
 
 	@PersistenceContext
 	private EntityManager manager;

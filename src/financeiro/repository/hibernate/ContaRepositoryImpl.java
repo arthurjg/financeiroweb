@@ -1,4 +1,4 @@
-package financeiro.dao.repository;
+package financeiro.repository.hibernate;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import financeiro.dao.ContaDAO;
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
+import financeiro.repository.ContaRepository;
 
 @Stateless
-public class ContaRepository implements ContaDAO {
+public class ContaRepositoryImpl implements ContaRepository {
 
 	@PersistenceContext
 	private EntityManager manager;	

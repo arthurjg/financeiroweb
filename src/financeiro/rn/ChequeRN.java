@@ -36,11 +36,11 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
-import financeiro.dao.repository.ChequeRepository;
 import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
+import financeiro.repository.ChequeRepository;
 import financeiro.util.RNException;
 
 @Stateless

@@ -1,4 +1,4 @@
-package financeiro.dao.repository;
+package financeiro.repository.hibernate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

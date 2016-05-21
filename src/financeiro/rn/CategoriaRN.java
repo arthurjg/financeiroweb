@@ -37,20 +37,21 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import financeiro.dao.repository.CategoriaRepository;
 import financeiro.model.Categoria;
 import financeiro.model.Usuario;
+import financeiro.repository.CategoriaRepository;
+import financeiro.repository.hibernate.CategoriaRepositoryImpl;
 
 @Stateless
 public class CategoriaRN {
 	
-	@Inject
-	private CategoriaRepository	categoriaRepository;
+	@Inject	
+	private  CategoriaRepository	categoriaRepository;
 
 	public CategoriaRN() {		
 	}
 
-	public CategoriaRN(CategoriaRepository categoriaRepository) {
+	public CategoriaRN(CategoriaRepositoryImpl categoriaRepository) {
 		this.categoriaRepository = categoriaRepository;
 	}
 

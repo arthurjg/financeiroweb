@@ -29,7 +29,7 @@
  * send a note to the authors so they can mail you a copy immediately.
  *
  */
-package financeiro.dao.repository;
+package financeiro.repository.hibernate;
 
 import java.util.List;
 
@@ -41,20 +41,20 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import financeiro.dao.ChequeDAO;
 import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
 import financeiro.model.Conta;
+import financeiro.repository.ChequeRepository;
 
 @Stateless
-public class ChequeRepository implements ChequeDAO {
+public class ChequeRepositoryImpl implements ChequeRepository {
 
 	@PersistenceContext
 	private EntityManager manager;
 	private Session	session;
 	
 
-	public ChequeRepository() {
+	public ChequeRepositoryImpl() {
 		this.session = manager.unwrap(Session.class);	
 	}
 

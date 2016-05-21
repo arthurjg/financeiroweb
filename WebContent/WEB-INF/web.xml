@@ -61,6 +61,14 @@
   		<welcome-file>index.xhtml</welcome-file>  		
  	</welcome-file-list> 	
  	
+ 	<login-config>
+            <auth-method>FORM</auth-method>            
+            <form-login-config>
+                <form-login-page>/publico/login.xhtml</form-login-page>
+                <form-error-page>/publico/login-erro.xhtml</form-error-page>
+            </form-login-config>
+    </login-config> 
+ 	
  	<security-constraint>
             <web-resource-collection>
                 <web-resource-name>resources</web-resource-name>

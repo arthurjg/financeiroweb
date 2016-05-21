@@ -29,46 +29,23 @@
  * send a note to the authors so they can mail you a copy immediately.
  *
  */
-package financeiro.rn;
+package financeiro.repository;
 
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
-import financeiro.repository.LancamentoRepository;
 
-@Stateless
-public class LancamentoRN {
-	
-	@Inject
-	private LancamentoRepository	lancamentoRepository;
+public interface LancamentoRepository {
 
-	public LancamentoRN() {		
-	}
+	public void salvar(Lancamento lancamento);
 
-	public void salvar(Lancamento lancamento) {
-		this.lancamentoRepository.salvar(lancamento);
-	}
+	public void excluir(Lancamento lancamento);
 
-	public void excluir(Lancamento lancamento) {
-		this.lancamentoRepository.excluir(lancamento);
-	}
+	public Lancamento carregar(Integer lancamento);
 
-	public Lancamento carregar(Integer lancamento) {
-		return this.lancamentoRepository.carregar(lancamento);
-	}
+	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim);
 
-	public float saldo(Conta conta, Date data) { 
-		float saldoInicial = conta.getSaldoInicial();
-		float saldoNaData = this.lancamentoRepository.saldo(conta, data);
-		return saldoInicial + saldoNaData;
-	}
-
-	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim) { 
-		return this.lancamentoRepository.listar(conta, dataInicio, dataFim);
-	}
+	public float saldo(Conta conta, Date data);
 }
