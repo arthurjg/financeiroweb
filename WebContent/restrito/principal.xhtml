@@ -13,30 +13,7 @@
 	</ui:define>
 
 	<ui:define name="corpo">
-		<h:form>
-		<h:panelGrid columns="2" cellpadding="5">
-			<h:panelGroup>
-				<fieldset><legend>Lançamentos do Mês</legend>
-					<util:extrato width="350px" height="100%" 
-					lista="#{lancamentoBean.listaMes}" 
-					larguraDescricao="130"
-					botaoExclusao="false"
-					botaoEdicao="false"
-					colunaSaldo="false"/>
-				</fieldset>
-			</h:panelGroup>
-			<h:panelGroup>
-				<fieldset><legend>Lançamentos do Mês Anterior</legend>
-					<util:extrato width="350px" height="100%" 
-					lista="#{lancamentoBean.listaMesAnterior}" 
-					larguraDescricao="130"
-					botaoExclusao="false"
-					botaoEdicao="false"
-					colunaSaldo="false"/>
-				</fieldset>
-			</h:panelGroup>
-		</h:panelGrid>
-		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>

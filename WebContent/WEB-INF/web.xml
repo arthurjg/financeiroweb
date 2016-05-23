@@ -64,25 +64,39 @@
  	<login-config>
             <auth-method>FORM</auth-method>            
             <form-login-config>
-                <form-login-page>/publico/login.xhtml</form-login-page>
-                <form-error-page>/publico/login-erro.xhtml</form-error-page>
+                <form-login-page>/publico/login.jsf</form-login-page>
+                <form-error-page>/publico/login-erro.jsf</form-error-page>
             </form-login-config>
     </login-config> 
  	
  	<security-constraint>
             <web-resource-collection>
-                <web-resource-name>resources</web-resource-name>
-                <url-pattern>/*</url-pattern>
+                <web-resource-name>restrito</web-resource-name>
+                <url-pattern>/restrito/*</url-pattern>
                 <http-method>GET</http-method>
                 <http-method>POST</http-method>
             </web-resource-collection>
             <auth-constraint>
-                <role-name>ADMIN</role-name>
-                <role-name>USUARIO</role-name>
+                <role-name>ROLE_ADMIN</role-name>
+                <role-name>ROLE_USUARIO</role-name>
+            </auth-constraint>
+    </security-constraint>	
+    <security-constraint>
+            <web-resource-collection>
+                <web-resource-name>admin</web-resource-name>
+                <url-pattern>/admin/*</url-pattern>
+                <http-method>GET</http-method>
+                <http-method>POST</http-method>
+            </web-resource-collection>
+            <auth-constraint>
+                <role-name>ROLE_ADMIN</role-name>                
             </auth-constraint>
     </security-constraint>	
     
     <security-role>
-            <role-name>ADMIN</role-name>
+            <role-name>ROLE_ADMIN</role-name>
+    </security-role>
+    <security-role>
+            <role-name>ROLE_USUARIO</role-name>
     </security-role>
 </web-app>

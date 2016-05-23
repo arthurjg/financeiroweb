@@ -227,6 +227,7 @@ public class LancamentoBean {
    
    public List<Lancamento> getListaMes() {
 	   	if (this.listaMes == null) {
+	   		this.listaMes = new ArrayList<Lancamento>();
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
 			Conta conta = contextoBean.getContaAtiva();
 
@@ -250,6 +251,9 @@ public class LancamentoBean {
 				saldo = saldo + (lancamento.getValor().floatValue() * categoria.getFator());
 				this.saldos.add(saldo);
 			}
+			if (this.listaMes == null) {
+		   		this.listaMes = new ArrayList<Lancamento>();
+			} 
 		}
 		return this.listaMes;
    }

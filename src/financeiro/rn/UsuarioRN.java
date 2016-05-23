@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import financeiro.dao.UsuarioDAO;
 import financeiro.model.Usuario;
 import financeiro.repository.UsuarioRepository;
 import financeiro.repository.hibernate.UsuarioRepositoryImpl;

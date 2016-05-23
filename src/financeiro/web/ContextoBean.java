@@ -34,7 +34,7 @@ public class ContextoBean {
 
 	public Usuario getUsuarioLogado() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ExternalContext external = context.getExternalContext();
+		ExternalContext external = context.getExternalContext();		
 		String login = external.getRemoteUser();
 
 		if (this.usuarioLogado == null || !login.equals(this.usuarioLogado.getLogin())) {

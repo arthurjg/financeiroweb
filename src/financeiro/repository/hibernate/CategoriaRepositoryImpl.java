@@ -5,11 +5,17 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import financeiro.model.Categoria;
+import financeiro.model.Conta;
 import financeiro.model.Usuario;
 import financeiro.repository.CategoriaRepository;
 
@@ -17,45 +23,47 @@ import financeiro.repository.CategoriaRepository;
 public class CategoriaRepositoryImpl implements CategoriaRepository {
 	
 	@PersistenceContext
-	private EntityManager manager;
-	private Session	session;
+	private EntityManager manager;	
 	
-	public CategoriaRepositoryImpl() {
-		this.session = manager.unwrap(Session.class);	
+	public CategoriaRepositoryImpl() {		
 	}	
 
+	//TODO VERIFICAR NECESSIDADE NA JPA
 	@Override
 	public Categoria salvar(Categoria categoria) {
-		Categoria merged = (Categoria) this.session.merge(categoria);
-		this.session.flush();
-		this.session.clear();
+		Categoria merged = categoria;		
 		return merged;
 	}	
 
 	@Override
 	public void excluir(Categoria categoria) {
 		categoria = (Categoria) this.carregar(categoria.getCodigo());
-		this.session.delete(categoria);
-		this.session.flush();
-		this.session.clear();
+		this.manager.remove(categoria);		
 	}
 
 	@Override
 	public Categoria carregar(Integer categoria) {
-		return (Categoria) this.session.get(Categoria.class, categoria);
+		return (Categoria) this.manager.find(Categoria.class, categoria);
 	}
-
-	@SuppressWarnings("unchecked")
+	
+	//TODO FUNCIONA?
 	@Override
 	public List<Categoria> listar(Usuario usuario) {
 
-		String hql = "select c from Categoria c where c.pai is null and c.usuario = :usuario";
-		Query query = this.session.createQuery(hql);
-		query.setInteger("usuario", usuario.getCodigo());
+		//String hql = "select c from Categoria c where c.pai is null and c.usuario = :usuario";		
+		CriteriaBuilder criteria = manager.getCriteriaBuilder(); 
+		CriteriaQuery<Categoria> criteriaQuery = criteria.createQuery(Categoria.class);
+		Root<Categoria> root = criteriaQuery.from(Categoria.class);
+		criteriaQuery.select(root);		
+		
+		Predicate predicate = criteria.isNull(root.get("pai"));
+		Predicate predicate2 = criteria.equal(root.get("usuario"), usuario);
+		criteriaQuery.where(predicate).where(predicate2);
+		
+		TypedQuery<Categoria> query = manager.createQuery(criteriaQuery);
+		List<Categoria> categorias = query.getResultList();		
 
-		List<Categoria> lista = query.list();
-
-		return lista;
+		return categorias;		
 	}
 
 }

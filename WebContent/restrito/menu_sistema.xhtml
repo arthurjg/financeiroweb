@@ -3,11 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
-	<sec:ifAnyGranted roles="ROLE_USUARIO">
+	<!-- <sec:ifAnyGranted roles="ROLE_USUARIO"> -->
 		<h:form id="menu">
 			<table width="100%">
 			<tr>
@@ -28,11 +27,11 @@
 					</h:selectOneMenu>						
 				</td>
 				<td align="left">
-					<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR">
+					<!-- <sec:ifAnyGranted roles="ROLE_ADMINISTRADOR"> -->
 						<h:commandLink action="/admin/principal" title="Administrativo">
 							<h:graphicImage library="imagens" name="administrativo16.png" />
 						</h:commandLink>
-					</sec:ifAnyGranted>
+					<!-- </sec:ifAnyGranted> -->
 					<h:commandLink action="/restrito/principal" title="Principal">
 						<h:graphicImage library="imagens" name="principal16.png" />
 					</h:commandLink>
@@ -43,6 +42,6 @@
 			</tr>
 			</table>
 		</h:form>
-	</sec:ifAnyGranted>
+	<!-- </sec:ifAnyGranted> -->
 </ui:composition>
 </html>
