@@ -19,8 +19,9 @@ public class ContaRN {
 	public ContaRN() {		
 	}
 
-	public List<Conta> listar(Usuario usuario) {		
-		return somarSaldoLista(this.contaRepository.listar(usuario));
+	public List<Conta> listar(Usuario usuario) {	
+		List<Conta> lista = this.contaRepository.listar(usuario);
+		return somarSaldoLista(lista);
 	}
 
 	public Conta carregar(Integer conta) {
@@ -33,7 +34,10 @@ public class ContaRN {
 	}
 
 	public void excluir(Conta conta) {
-		this.contaRepository.excluir(conta);
+		Conta contaPersistida = this.contaRepository.carregar(conta.getConta());
+		if(contaPersistida != null){
+			this.contaRepository.excluir(contaPersistida);
+		}		
 	}
 
 	public void tornarFavorita(Conta contaFavorita) { 

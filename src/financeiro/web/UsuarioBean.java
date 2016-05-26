@@ -20,6 +20,10 @@ public class UsuarioBean {
 	
 	@EJB
 	private UsuarioRN usuarioRN;
+	
+	@EJB
+	private ContaRN contaRN;
+	
 	private Usuario usuario;
 	private String confirmarSenha;
 	private List<Usuario> lista;
@@ -53,21 +57,25 @@ public class UsuarioBean {
 			return null;
 		}
 		
+		if(usuarioRN.buscarPorLogin(this.usuario.getLogin()) != null ){
+			FacesMessage facesMessage = 
+					new FacesMessage("Esse login já está sendo utilizado. Por favor informe outro.");
+				context.addMessage( null, facesMessage);
+				return null;
+		}	
 		
 		usuarioRN.salvar( this.usuario);
 		
 		if (this.conta.getDescricao() != null) {
 			this.conta.setUsuario(this.usuario);
-			this.conta.setFavorita(true);
-			ContaRN contaRN = new ContaRN();
+			this.conta.setFavorita(true);			
 			contaRN.salvar(this.conta);
 		}
 		
 		return this.destinoSalvar;
 	}
 	
-	public String excluir() {
-		
+	public String excluir() {		
 		usuarioRN.excluir(this.usuario);
 		this.lista = null;
 		return null;
@@ -78,7 +86,6 @@ public class UsuarioBean {
 			this.usuario.setAtivo(false);
 		else
 			this.usuario.setAtivo(true);
-
 		
 		usuarioRN.salvar(this.usuario);
 		return null;
@@ -87,7 +94,6 @@ public class UsuarioBean {
 	public String atribuiPermissao(Usuario usuario, String permissao) {
 
 		this.usuario = usuario;
-
 		Set<String> permissoes = this.usuario.getPermissao();
 
 		if (permissoes.contains(permissao)) {
@@ -99,15 +105,14 @@ public class UsuarioBean {
 	}
 	
 	public List<Usuario> getLista() {
-		if (this.lista == null) {
-			
+		if (this.lista == null) {			
 			this.lista = usuarioRN.listar();
 		}
 		return this.lista;
 	}
 	
 	public String cancelaEdicao(){
-		return "login";
+		return "/publico/login";
 	}
 	
 	public String getConfirmarSenha() {

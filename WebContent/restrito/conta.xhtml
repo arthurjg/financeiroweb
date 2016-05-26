@@ -24,7 +24,7 @@
 				<h:outputLabel value="Descrição: " for="descricao" />
 				<h:inputText id="descricao"
 					value="#{contaBean.selecionada.descricao}" required="true"
-					maxlength="45" />
+					size="15" maxlength="45" />
 
 				<h:outputLabel value="Saldo Inicial: " for="saldoInicial" />
 				<h:inputText id="saldoInicial"
@@ -45,19 +45,21 @@
 				</h:inputText>
 
 				<h:commandButton value="Salvar" action="#{contaBean.salvar}">
-					<f:ajax execute="@form" render=":edicao :listagem" />
+					<f:ajax render=":edicao :listagem"></f:ajax>
 				</h:commandButton>
-			</h:panelGrid>
+			</h:panelGrid>				
 			
-		</h:form>
+		</h:form>		
+		
 		<h:form id="listagem">
 			<!-- (2) -->
 			<h:dataTable value="#{contaBean.lista}" var="conta"
 				rendered="#{!empty contaBean.lista}">
-				
+
 				<h:column>
 					<f:facet name="header">Descrição</f:facet>
-					#{conta.descricao}
+					<h:outputText value="#{conta.descricao}">
+					</h:outputText>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Data Cadastro</f:facet>
@@ -67,7 +69,8 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Tipo</f:facet>
-					#{conta.tipo}
+					<h:outputText value="#{conta.tipo}">
+					</h:outputText>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Saldo Inicial</f:facet>
@@ -108,7 +111,7 @@
 							value="#{conta}" />
 					</h:commandLink>
 				</h:column>
-				
+
 			</h:dataTable>
 		</h:form>
 		
@@ -143,8 +146,7 @@
 						title="Imprimir Planilha Open Office" />
 				</h:commandLink>
 			</h:form>
-		</h:panelGrid>
-		
+		</h:panelGrid>			
 	
 	</ui:define>
 </ui:composition>

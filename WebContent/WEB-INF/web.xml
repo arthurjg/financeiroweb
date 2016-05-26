@@ -30,11 +30,11 @@
  	</servlet>
  	
  	<!-- PrimeFaces -->
- 	<!-- <servlet>
+ 	<servlet>
   		<servlet-name>Resource Servlet</servlet-name>
   		<servlet-class>org.primefaces.resource.ResourceServlet</servlet-class>
   		<load-on-startup>1</load-on-startup>
- 	</servlet> -->
+ 	</servlet>
  	
  	<!-- <servlet>
   		<description>Webservices do Financeiro</description>
@@ -48,11 +48,12 @@
   		<url-pattern>*.jsf</url-pattern>
  	</servlet-mapping>
  	
- 	<!-- <servlet-mapping>
+ 	<servlet-mapping>
   		<servlet-name>Resource Servlet</servlet-name>
   		<url-pattern>/primefaces_resource/*</url-pattern>
  	</servlet-mapping>
- 	<servlet-mapping>
+ 	
+ 	<!-- <servlet-mapping>
   		<servlet-name>financeiroWS</servlet-name>
   		<url-pattern>/webservice/financeiroWS</url-pattern>
  	</servlet-mapping> -->

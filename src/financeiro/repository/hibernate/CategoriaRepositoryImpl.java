@@ -31,6 +31,7 @@ public class CategoriaRepositoryImpl implements CategoriaRepository {
 	//TODO VERIFICAR NECESSIDADE NA JPA
 	@Override
 	public Categoria salvar(Categoria categoria) {
+		manager.persist(categoria);
 		Categoria merged = categoria;		
 		return merged;
 	}	

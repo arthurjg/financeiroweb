@@ -23,6 +23,7 @@ public class ContaRepositoryImpl implements ContaRepository {
 
 	@Override
 	public void excluir(Conta conta) {
+		manager.merge(conta);
 		manager.remove(conta);
 	}
 
@@ -62,16 +63,21 @@ public class ContaRepositoryImpl implements ContaRepository {
 		Root<Conta> root = criteriaQuery.from(Conta.class);
 		criteriaQuery.select(root);
 		
-		Predicate predicate = criteria.equal(root.get("usuario"), usuario);
+		Predicate predicate; 
+		//= criteria.equal(root.get("usuario"), usuario);
 		Predicate predicate2 = criteria.equal(root.get("favorita"), true);
-		criteriaQuery.where(predicate);
-		criteriaQuery.where(predicate2);
+		predicate = criteria.and(
+				criteria.equal(root.get("favorita"), true),
+				criteria.equal(root.get("usuario"), usuario));
+		criteriaQuery.where(predicate);		
 		
 		TypedQuery<Conta> query = manager.createQuery(criteriaQuery);
+		
+		System.out.println("***********  query: " + query.toString() + "  ************");
 		Conta contaFavorita = query.getSingleResult();	
 
 		return contaFavorita;
-		//TODO FUNCIONA?	
+		//TODO FUNCIONA? não. verificar	
 		
 	}
 }

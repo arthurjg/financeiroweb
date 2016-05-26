@@ -5,7 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 	
-<ui:composition template="/templates/interna.xhtml">
+<ui:composition template="/templates/principal.xhtml">
 
 	<ui:define name="titulo">
 		Cadastro de Usuários
@@ -22,7 +22,8 @@
 		<h:panelGrid columns="2">
 			<h:outputLabel value="Nome:" for="nome" />
 			<h:inputText id="nome" label="Nome" value="#{usuarioBean.usuario.nome}" 
-				size="30" required="true" requiredMessage="Você não tem nome?">				
+				size="30" required="true" requiredMessage="Você não tem nome?"
+				validatorMessage="O nome deve conter no minimo 10 caracteres">				
 				<f:validateLength minimum="10" maximum="30" />
 			</h:inputText>
 				
@@ -75,7 +76,8 @@
 				<fieldset><legend>Conta Inicial</legend>
 				<h:panelGrid columns="2">
 					<h:outputLabel value="Descrição: " for="descricao" />
-					<h:inputText id="descricao" label="Descrição" value="#{usuarioBean.conta.descricao}" required="true" maxlength="45" />
+					<h:inputText id="descricao" label="Descrição" value="#{usuarioBean.conta.descricao}" 
+						required="true" maxlength="45" validatorMessage="Informe a descrição da conta" />
 	
 					<h:outputLabel value="Saldo Inicial: " for="saldoInicial" />
 					<h:inputText id="saldoInicial" value="#{usuarioBean.conta.saldoInicial}" size="10">
@@ -86,6 +88,7 @@
 			</h:panelGroup>
 		
 		<h:commandButton action="#{usuarioBean.salvar}" value="Salvar" />
+		<!-- TODO VERIFICAR COM DESABILITAR VALIDACAO AO CANCELAR -->
 		<h:commandButton action="#{usuarioBean.cancelaEdicao}" value="Cancelar" />
 	</h:form>
 

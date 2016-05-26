@@ -42,8 +42,7 @@ public class ContaBean {
 		
 	}
 
-	public void excluir() { //1
-		
+	public void excluir() { //1		
 		contaRN.excluir(this.selecionada);
 		this.selecionada = new Conta();
 		this.lista = null;
@@ -57,9 +56,7 @@ public class ContaBean {
 	
 	public List<Conta> getLista() { //2
 		if (this.lista == null) {
-			ContextoBean contextoBean = ContextoUtil.getContextoBean();
-
-			
+			ContextoBean contextoBean = ContextoUtil.getContextoBean();			
 			this.lista = contaRN.listar(contextoBean.getUsuarioLogado());
 		}
 		return this.lista;

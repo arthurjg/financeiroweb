@@ -14,6 +14,8 @@ public class UsuarioRN {
 	 
 	@Inject
 	private UsuarioRepository usuarioRepo;
+	
+	@Inject
 	private CategoriaRN categoriaRN;
 
 	public UsuarioRN() {			
