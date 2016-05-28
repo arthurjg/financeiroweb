@@ -46,25 +46,23 @@ public class UsuarioBean {
 		return "/publico/usuario";
 	}
 	
-	public String salvar(){
-		FacesContext context = FacesContext.getCurrentInstance();
+	public String salvar(){				
 		
-		String senha = this.usuario.getSenha();
-		if ( !senha.equals( this.confirmarSenha ) ) {
-			FacesMessage facesMessage = 
-				new FacesMessage("A senha n√£o foi confirmada corretamente");
-			context.addMessage( null, facesMessage);
-			return null;
+		if ( !validaSenha(this.usuario.getSenha()) ) {
+			mostraMensagem("A senha n√£o foi confirmada corretamente");			
 		}
 		
-		if(usuarioRN.buscarPorLogin(this.usuario.getLogin()) != null ){
-			FacesMessage facesMessage = 
-					new FacesMessage("Esse login j· est· sendo utilizado. Por favor informe outro.");
-				context.addMessage( null, facesMessage);
-				return null;
-		}	
+		boolean salvarNovo = this.usuario.getCodigo() != null || this.usuario.getCodigo() != 0;
 		
-		usuarioRN.salvar( this.usuario);
+		if(salvarNovo){
+			if( usuarioRN.buscarPorLogin(this.usuario.getLogin()) != null ){
+				mostraMensagem("Esse login j· est· sendo utilizado. Por favor informe outro.");
+			} else {
+				usuarioRN.salvar( this.usuario);
+			}
+		} else {
+			usuarioRN.atualizar( this.usuario);
+		}		
 		
 		if (this.conta.getDescricao() != null) {
 			this.conta.setUsuario(this.usuario);
@@ -113,6 +111,21 @@ public class UsuarioBean {
 	
 	public String cancelaEdicao(){
 		return "/publico/login";
+	}
+	
+	private String mostraMensagem(String menssagem){
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage facesMessage = 
+				new FacesMessage(menssagem);
+			context.addMessage( null, facesMessage);
+			return null;
+	}
+	
+	private Boolean validaSenha(String senha){		 
+		if ( !senha.equals( this.confirmarSenha ) ) {
+			return false;
+		}
+		return true;
 	}
 	
 	public String getConfirmarSenha() {

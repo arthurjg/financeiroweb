@@ -62,6 +62,11 @@
   		<welcome-file>index.xhtml</welcome-file>  		
  	</welcome-file-list> 	
  	
+ 	<error-page>
+        <error-code>403</error-code>
+        <location>/publico/acesso-restrito.jsf</location>
+    </error-page> 
+ 	
  	<login-config>
             <auth-method>FORM</auth-method>            
             <form-login-config>

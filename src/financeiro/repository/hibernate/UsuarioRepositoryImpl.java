@@ -2,18 +2,19 @@ package financeiro.repository.hibernate;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import financeiro.model.Usuario;
 import financeiro.repository.UsuarioRepository;
 
-@Stateless
+@Stateful
 public class UsuarioRepositoryImpl extends ObjectRepository implements UsuarioRepository {	
 
-	@PersistenceContext
+	@PersistenceContext(type=PersistenceContextType.EXTENDED)
 	private EntityManager manager;
 	
 	@Override
@@ -41,9 +42,12 @@ public class UsuarioRepositoryImpl extends ObjectRepository implements UsuarioRe
 		return (Usuario) manager.find(Usuario.class, codigo);
 	}
 
+	/**
+	 * Utilizado join fetch para impedir erros de lazy loading 
+	 */
 	@Override
 	public Usuario buscarPorLogin(String login) {		
-		String hql = "select u from Usuario u where u.login = :login";
+		String hql = "select u from Usuario u join fetch u.permissao where u.login = :login";
 		Query consulta = manager.createQuery(hql);
 		consulta.setParameter("login", login);
 		return (Usuario) consulta.getSingleResult();

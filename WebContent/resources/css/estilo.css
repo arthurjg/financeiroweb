@@ -7,7 +7,7 @@ body, td, th {
 	font-size: 12px;	
 }
 
-th {
+th, tfoot tr td {
 	background: url(#{resource['imagens:fundo_claro.png']}); 
 	min-height: 25px;
 	padding: 3px;
@@ -56,13 +56,6 @@ img {
 	bottom: 0;
 	disply: block;
 }
-
-
-
-
-
-
-
 
 
 /****** PACE ********/

@@ -3,10 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+	xmlns:f="http://java.sun.com/jsf/core">
 
-<ui:composition template="/templates/principal.xhtml">
+<ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="corpo">
 
@@ -44,14 +43,14 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Permissões</f:facet>
-				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ADMINISTRADOR')}" 
+				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ADMIN')}" 
 					title="Permissão Administrador">
 					<h:graphicImage library="imagens" 
-						name="ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_ADMINISTRADOR')}.png" 
+						name="ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_ADMIN')}.png" 
 						style="border:0"/>
 				</h:commandLink>
 				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USUARIO_VIP')}" 
-					title="Permiss�o Usu�rio VIP">
+					title="Permissão Usuário VIP">
 					<h:graphicImage library="imagens" 
 						name="ROLE_USUARIO_VIP_#{usuario.permissao.contains('ROLE_USUARIO_VIP')}.png" 
 						style="border:0"/>

@@ -5,14 +5,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 	
-<ui:composition template="/templates/principal.xhtml">
+<ui:composition template="/templates/interna.xhtml">
 
 	<ui:define name="corpo">		
 	
-		<h:panelGroup >
-			<span style="font-color:red"> Erro ao efetuar o login.</span><br />
-			<br/>
-			Motivo: #{contextoBean.getResponse(#{response}, #{request})}
+		<h:panelGroup>
+			<span style="font-color:red">Acesso Restrito.</span>
+			<br />
+			<br/>			
 		</h:panelGroup>
 		
 	</ui:define>
