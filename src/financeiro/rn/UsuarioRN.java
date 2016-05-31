@@ -55,7 +55,7 @@ public class UsuarioRN {
 	
 	@Transactional
 	public void atualizar( Usuario usuario ){
-		this.usuarioRepo.atualizar(usuario);
+		this.usuarioRepo.atualizar(usuario);		
 	}
 	
 	@Transactional

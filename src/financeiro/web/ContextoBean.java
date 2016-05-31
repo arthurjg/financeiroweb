@@ -90,11 +90,11 @@ public class ContextoBean implements Serializable {
 		return false;
 	}
 	
-	public void getResponse(HttpServletResponse res, HttpServletRequest req){
+	/*public void getResponse(HttpServletResponse res, HttpServletRequest req){
 		res.getStatus();
 		Enumeration<String> attrs = req.getAttributeNames();
  		System.out.println(attrs);
-	}
+	}*/
 	
 	public String logout() {
 		FacesContext context = FacesContext.getCurrentInstance();

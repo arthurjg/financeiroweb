@@ -11,11 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import financeiro.model.Categoria;
-import financeiro.model.Conta;
 import financeiro.model.Usuario;
 import financeiro.repository.CategoriaRepository;
 
@@ -26,9 +22,12 @@ public class CategoriaRepositoryImpl implements CategoriaRepository {
 	private EntityManager manager;	
 	
 	public CategoriaRepositoryImpl() {		
-	}	
-
-	//TODO VERIFICAR NECESSIDADE NA JPA
+	}
+	
+	public CategoriaRepositoryImpl(EntityManager manager) {		
+		this.manager = manager;
+	}
+	
 	@Override
 	public Categoria salvar(Categoria categoria) {
 		manager.persist(categoria);
@@ -50,16 +49,17 @@ public class CategoriaRepositoryImpl implements CategoriaRepository {
 	//TODO FUNCIONA?
 	@Override
 	public List<Categoria> listar(Usuario usuario) {
-
-		//String hql = "select c from Categoria c where c.pai is null and c.usuario = :usuario";		
+				
 		CriteriaBuilder criteria = manager.getCriteriaBuilder(); 
 		CriteriaQuery<Categoria> criteriaQuery = criteria.createQuery(Categoria.class);
 		Root<Categoria> root = criteriaQuery.from(Categoria.class);
-		criteriaQuery.select(root);		
+		criteriaQuery.select(root);	
 		
-		Predicate predicate = criteria.isNull(root.get("pai"));
-		Predicate predicate2 = criteria.equal(root.get("usuario"), usuario);
-		criteriaQuery.where(predicate).where(predicate2);
+		Predicate predicate = criteria.and(
+				criteria.isNull(root.get("pai")),
+				criteria.equal(root.get("usuario"), usuario));		
+		
+		criteriaQuery.where(predicate);
 		
 		TypedQuery<Categoria> query = manager.createQuery(criteriaQuery);
 		List<Categoria> categorias = query.getResultList();		

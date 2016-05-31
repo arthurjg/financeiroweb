@@ -9,8 +9,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/FinanceiroDS</jta-data-source>
 		<!-- Configuração da conexão com o Banco e dialeto -->
-		<properties>		
-				
+		<properties>					
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
@@ -21,3 +20,6 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 
 </persistence>
 	
+<!-- 
+<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+ -->

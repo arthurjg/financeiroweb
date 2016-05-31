@@ -31,6 +31,7 @@
  */
 package financeiro.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,19 +50,21 @@ import financeiro.web.util.ContextoUtil;
 
 @ManagedBean(name = "categoriaBean")
 @RequestScoped
-public class CategoriaBean {
+public class CategoriaBean implements Serializable  {		
+
+	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private CategoriaRN categoriaRN;
+	private CategoriaRN 	   categoriaRN;
 	private TreeNode	       categoriasTree;
 	private Categoria	       editada	     = new Categoria();
-	private List<SelectItem>	categoriasSelect;
-	private boolean	       mostraEdicao	= false;
+	private List<SelectItem>   categoriasSelect;
+	private Integer	      	   paiId;
+	private boolean	       	   mostraEdicao	= false;
 
 	public void novo() {
-		Categoria pai = null;
-		if (this.editada.getCodigo() != null) {
-			
+		Categoria pai = null;		
+		if (this.editada.getCodigo() != null) {			
 			pai = categoriaRN.carregar(this.editada.getCodigo());
 		}
 		this.editada = new Categoria();
@@ -81,16 +84,15 @@ public class CategoriaBean {
 	}
 
 	public void salvar() {
-		ContextoBean contextoBean = ContextoUtil.getContextoBean();
-
-		
+		System.out.println("******** teste **************");
+		ContextoBean contextoBean = ContextoUtil.getContextoBean();		
 		this.editada.setUsuario(contextoBean.getUsuarioLogado());
 		categoriaRN.salvar(this.editada);
 
 		this.editada = null;
 		this.mostraEdicao = false;
 		this.categoriasTree = null;
-		this.categoriasSelect = null;
+		this.categoriasSelect = null;		
 	}
 
 	public void excluir() {
@@ -106,7 +108,6 @@ public class CategoriaBean {
 	public TreeNode getCategoriasTree() {
 		if (this.categoriasTree == null) {
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
-
 			
 			List<Categoria> categorias = categoriaRN.listar(contextoBean.getUsuarioLogado());
 
@@ -130,7 +131,6 @@ public class CategoriaBean {
 		if (this.categoriasSelect == null) {
 			this.categoriasSelect = new ArrayList<SelectItem>();
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
-
 			
 			List<Categoria> categorias = categoriaRN.listar(contextoBean.getUsuarioLogado());
 			this.montaDadosSelect(this.categoriasSelect, categorias, "");
@@ -166,4 +166,21 @@ public class CategoriaBean {
 	public void setEditada(Categoria editada) {
 		this.editada = editada;
 	}
+	
+	public void setCategoriasTree(TreeNode categoriasTree) {
+		this.categoriasTree = categoriasTree;
+	}
+
+	public void setCategoriasSelect(List<SelectItem> categoriasSelect) {
+		this.categoriasSelect = categoriasSelect;
+	}
+
+	public Integer getPaiId() {
+		return paiId;
+	}
+
+	public void setPaiId(Integer paiId) {
+		this.paiId = paiId;
+	}	
+	
 }

@@ -51,8 +51,7 @@ public class ContaRepositoryImpl implements ContaRepository {
 		TypedQuery<Conta> query = manager.createQuery(criteriaQuery);
 		List<Conta> contas = query.getResultList();		
 
-		return contas;
-		//TODO FUNCIONA?
+		return contas;		
 	}
 
 	@Override
@@ -63,22 +62,16 @@ public class ContaRepositoryImpl implements ContaRepository {
 		Root<Conta> root = criteriaQuery.from(Conta.class);
 		criteriaQuery.select(root);
 		
-		Predicate predicate; 
-		//= criteria.equal(root.get("usuario"), usuario);
-		Predicate predicate2 = criteria.equal(root.get("favorita"), true);
-		predicate = criteria.and(
+		Predicate predicate = criteria.and(
 				criteria.equal(root.get("favorita"), true),
 				criteria.equal(root.get("usuario"), usuario));
 		criteriaQuery.where(predicate);		
 		
-		TypedQuery<Conta> query = manager.createQuery(criteriaQuery);
+		TypedQuery<Conta> query = manager.createQuery(criteriaQuery);		
 		
-		System.out.println("***********  query: " + query.toString() + "  ************");
 		Conta contaFavorita = query.getSingleResult();	
 
-		return contaFavorita;
-		//TODO FUNCIONA? não. verificar	
-		
+		return contaFavorita;		
 	}
 }
 

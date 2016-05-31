@@ -36,28 +36,66 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import financeiro.model.Categoria;
+import financeiro.repository.CategoriaRepository;
+import financeiro.repository.hibernate.CategoriaRepositoryImpl;
 import financeiro.rn.CategoriaRN;
+import financeiro.util.EntityManagerFactorySingleton;
 
+/**
+ * 
+ * @author arthur
+ * TODO problema com jpa em
+ *
+ */
 @FacesConverter(forClass = Categoria.class)
 public class CategoriaConverter implements Converter {
-
-	//@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		if (value != null && value.trim().length() > 0) {
-			Integer codigo = Integer.valueOf(value);
-			try {
-				CategoriaRN categoriaRN = new CategoriaRN();
-				return categoriaRN.carregar(codigo);
-			} catch (Exception e) {
-				throw new ConverterException("Não foi possível encontrar a categoria de código " + value + "." + e.getMessage());
-			}
-		}
-		return null;
+	
+	private EntityManager manager;	
+	
+	private CategoriaRN categoriaRN;
+	
+	public CategoriaConverter(){
+		/*EntityManagerFactory emf = EntityManagerFactorySingleton.getInstance();
+		manager = emf.createEntityManager();
+		CategoriaRepository categoriaRepository = new CategoriaRepositoryImpl(manager);
+		categoriaRN = new CategoriaRN(categoriaRepository);*/
 	}
 
-	//@Override
+	@Override
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+		Object categoria = null;
+		
+		if (value != null && value.trim().length() > 0) {
+			Integer codigo = Integer.valueOf(value);
+			Categoria cat = new Categoria();
+			try {				
+				cat.setCodigo(codigo);
+				
+				//manager.getTransaction().begin();				
+				//categoria = categoriaRN.carregar(codigo);
+				//manager.getTransaction().commit();
+			} catch (Exception e) {
+				try {
+					if ( this.manager.getTransaction().isActive() ){
+						this.manager.getTransaction().rollback();
+					}
+				} catch (Throwable t) {
+					t.printStackTrace();
+				}
+				throw new ConverterException("Não foi possível encontrar a categoria de código " + value + "." + e.getMessage());
+			} finally {
+				//this.manager.close();
+			}
+			return cat;
+		}
+		return categoria;
+	}
+
+	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
 			Categoria categoria = (Categoria) value;

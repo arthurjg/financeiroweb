@@ -3,11 +3,11 @@ package financeiro.web;
 import java.util.List;
 import java.util.Set;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import financeiro.model.Conta;
 import financeiro.model.Usuario;
@@ -18,10 +18,10 @@ import financeiro.rn.UsuarioRN;
 @RequestScoped
 public class UsuarioBean {
 	
-	@EJB
+	@Inject
 	private UsuarioRN usuarioRN;
 	
-	@EJB
+	@Inject
 	private ContaRN contaRN;
 	
 	private Usuario usuario;
@@ -52,7 +52,7 @@ public class UsuarioBean {
 			mostraMensagem("A senha não foi confirmada corretamente");			
 		}
 		
-		boolean salvarNovo = this.usuario.getCodigo() != null || this.usuario.getCodigo() != 0;
+		boolean salvarNovo = this.usuario.getCodigo() == null || this.usuario.getCodigo() == 0;
 		
 		if(salvarNovo){
 			if( usuarioRN.buscarPorLogin(this.usuario.getLogin()) != null ){

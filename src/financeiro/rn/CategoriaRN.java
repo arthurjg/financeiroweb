@@ -36,6 +36,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import financeiro.model.Categoria;
 import financeiro.model.Usuario;
@@ -51,7 +52,7 @@ public class CategoriaRN {
 	public CategoriaRN() {		
 	}
 
-	public CategoriaRN(CategoriaRepositoryImpl categoriaRepository) {
+	public CategoriaRN(CategoriaRepository categoriaRepository) {
 		this.categoriaRepository = categoriaRepository;
 	}
 
@@ -59,6 +60,7 @@ public class CategoriaRN {
 		return this.categoriaRepository.listar(usuario);
 	}
 
+	@Transactional
 	public Categoria salvar(Categoria categoria) {
 		Categoria pai = categoria.getPai();
 
@@ -89,7 +91,8 @@ public class CategoriaRN {
 			}
 		}
 	}
-
+	
+	@Transactional
 	public void excluir(Categoria categoria) {
 
 		//OrcamentoRN orcamentoRN = new OrcamentoRN();
@@ -98,6 +101,7 @@ public class CategoriaRN {
 		this.categoriaRepository.excluir(categoria);
 	}
 	
+	@Transactional
 	public void excluir(Usuario usuario) {
 		List<Categoria> lista = this.listar(usuario);
 		for (Categoria categoria:lista) {
@@ -127,6 +131,7 @@ public class CategoriaRN {
 		}
 	}
 
+	@Transactional
 	public void salvaEstruturaPadrao(Usuario usuario) {
 
 		Categoria despesas = new Categoria(null, usuario, "DESPESAS", -1);
