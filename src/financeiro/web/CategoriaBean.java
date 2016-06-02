@@ -83,8 +83,7 @@ public class CategoriaBean implements Serializable  {
 		}
 	}
 
-	public void salvar() {
-		System.out.println("******** teste **************");
+	public void salvar() {		
 		ContextoBean contextoBean = ContextoUtil.getContextoBean();		
 		this.editada.setUsuario(contextoBean.getUsuarioLogado());
 		categoriaRN.salvar(this.editada);

@@ -12,7 +12,7 @@ import financeiro.model.Usuario;
 import financeiro.repository.UsuarioRepository;
 
 @Stateful
-public class UsuarioRepositoryImpl extends ObjectRepository implements UsuarioRepository {	
+public class UsuarioRepositoryImpl implements UsuarioRepository {	
 
 	@PersistenceContext(type=PersistenceContextType.EXTENDED)
 	private EntityManager manager;

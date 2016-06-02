@@ -36,6 +36,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
@@ -49,25 +50,30 @@ public class LancamentoRN {
 
 	public LancamentoRN() {		
 	}
-
+	
+	@Transactional
 	public void salvar(Lancamento lancamento) {
 		this.lancamentoRepository.salvar(lancamento);
 	}
-
+	
+	@Transactional
 	public void excluir(Lancamento lancamento) {
 		this.lancamentoRepository.excluir(lancamento);
 	}
-
+	
+	@Transactional
 	public Lancamento carregar(Integer lancamento) {
 		return this.lancamentoRepository.carregar(lancamento);
 	}
-
+	
+	@Transactional
 	public float saldo(Conta conta, Date data) { 
 		float saldoInicial = conta.getSaldoInicial();
 		float saldoNaData = this.lancamentoRepository.saldo(conta, data);
 		return saldoInicial + saldoNaData;
 	}
-
+	
+	@Transactional
 	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim) { 
 		return this.lancamentoRepository.listar(conta, dataInicio, dataFim);
 	}

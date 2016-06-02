@@ -35,30 +35,28 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
 import financeiro.repository.LancamentoRepository;
 
-@Stateless
+@Stateful
 public class LancamentoRepositoryImpl implements LancamentoRepository {
 
-	@PersistenceContext
-	private EntityManager manager;
-	private Session	session;
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
+	@PersistenceContext(type=PersistenceContextType.EXTENDED)
+	private EntityManager manager;	
 
 	public void salvar(Lancamento lancamento) {
 		manager.persist(lancamento);
@@ -71,24 +69,37 @@ public class LancamentoRepositoryImpl implements LancamentoRepository {
 	public Lancamento carregar(Integer lancamento) {
 		return (Lancamento)  manager.find(Lancamento.class, lancamento);
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim) {
-		this.session = manager.unwrap(Session.class);		
-		Criteria criteria = this.session.createCriteria(Lancamento.class);
+	public List<Lancamento> listar(Conta conta, Date dataInicio, Date dataFim) {		
 
+		StringBuffer sql = new StringBuffer();
+		sql.append("select lan");
+		sql.append("  from Lancamento lan ");		
+		sql.append("	join fetch lan.categoria");
+		sql.append(" where lan.conta = :conta");		
+		
 		if (dataInicio != null && dataFim != null) {
-			criteria.add(Restrictions.between("data", dataInicio, dataFim));
-		} else if (dataInicio != null) {
-			criteria.add(Restrictions.ge("data", dataInicio));
+			sql.append("   and lan.data >= :dataInicio");
+			sql.append("   and lan.data <= :dataFim");
+		} else if (dataInicio != null) {			
+			sql.append("   and lan.data >= :dataInicio");
 		} else if (dataFim != null) {
-			criteria.add(Restrictions.le("data", dataFim));
-		}
+			sql.append("   and lan.data <= :dataFim");	
+		}	
+		sql.append(" order by lan.data");
 
-		criteria.add(Restrictions.eq("conta", conta));
-		criteria.addOrder(Order.asc("data"));
-		return criteria.list();
+		Query query = manager.createQuery(sql.toString());
+
+		query.setParameter("conta", conta);
+		if (dataInicio != null) {			
+			query.setParameter("dataInicio", dataInicio);
+		} 
+		if (dataFim != null) {
+			query.setParameter("dataFim", dataFim);	
+		}				
+		
+		return query.getResultList();	
 	}
 
 	public float saldo(Conta conta, Date data) {
@@ -107,9 +118,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepository {
 
 		Query query = manager.createQuery(sql.toString());
 
-		query.setParameter("conta", 
-				//conta.getConta()
-				conta);
+		query.setParameter("conta", conta);
 		query.setParameter("data", data);
 
 		BigDecimal saldo = (BigDecimal) query.getSingleResult();
@@ -118,5 +127,45 @@ public class LancamentoRepositoryImpl implements LancamentoRepository {
 			return saldo.floatValue();
 		}
 		return 0f;
+	}
+	
+	public List<Lancamento> listarCriteria(Conta conta, Date dataInicio, Date dataFim) {		
+		
+		CriteriaBuilder criteria = manager.getCriteriaBuilder(); 
+		CriteriaQuery<Lancamento> criteriaQuery = criteria.createQuery(Lancamento.class);
+		Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
+		criteriaQuery.select(root);	
+		
+		Predicate predicateDate = null;		
+		
+		ParameterExpression<Long> dataInicioParam = criteria.parameter(Long.class, "dataInicio");		
+		ParameterExpression<Long> dataFimParam = criteria.parameter(Long.class, "dataFim");
+		Path<Date> dataPath = root.<Date>get("data");
+		
+		if (dataInicio != null && dataFim != null) {
+			predicateDate = criteria.between(dataPath.as(Long.class), dataInicioParam, dataFimParam);			
+		} else if (dataInicio != null) {			
+			predicateDate = criteria.ge(dataPath.as(Long.class), dataInicioParam);
+		} else if (dataFim != null) {
+			predicateDate = criteria.le(dataPath.as(Long.class), dataFimParam);			
+		}		
+		
+		if(predicateDate != null){
+			Predicate predicate = criteria.and(predicateDate, criteria.equal(root.get("conta"), conta));			
+			criteriaQuery.where(predicate);	
+		}
+		
+		criteriaQuery.orderBy(criteria.asc(root.get("data")));
+		
+		TypedQuery<Lancamento> query = manager.createQuery(criteriaQuery);	
+		
+		if(dataInicio != null){
+			query.setParameter("dataInicio", (Long)dataInicio.getTime());
+		}
+		if(dataFim != null){
+			query.setParameter("dataFim", (Long)dataFim.getTime());
+		}		
+		
+		return query.getResultList();	
 	}
 }

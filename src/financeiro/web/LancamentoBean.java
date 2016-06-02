@@ -31,6 +31,7 @@
  */
 package financeiro.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,8 +63,10 @@ import financeiro.web.util.RelatorioUtil;
 
 @ManagedBean(name = "lancamentoBean")
 @ViewScoped
-public class LancamentoBean {
+public class LancamentoBean implements Serializable {	
 	
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private LancamentoRN lancamentoRN;
 
