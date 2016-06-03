@@ -57,6 +57,11 @@ public class LancamentoRN {
 	}
 	
 	@Transactional
+	public void atualizar(Lancamento lancamento) {
+		this.lancamentoRepository.atualizar(lancamento);
+	}
+	
+	@Transactional
 	public void excluir(Lancamento lancamento) {
 		this.lancamentoRepository.excluir(lancamento);
 	}

@@ -61,6 +61,10 @@ public class LancamentoRepositoryImpl implements LancamentoRepository {
 	public void salvar(Lancamento lancamento) {
 		manager.persist(lancamento);
 	}
+	
+	public void atualizar(Lancamento lancamento) {
+		manager.merge(lancamento);
+	}
 
 	public void excluir(Lancamento lancamento) {
 		manager.remove(lancamento);

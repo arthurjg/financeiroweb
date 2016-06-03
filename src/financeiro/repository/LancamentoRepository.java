@@ -40,6 +40,8 @@ import financeiro.model.Lancamento;
 public interface LancamentoRepository {
 
 	public void salvar(Lancamento lancamento);
+	
+	public void atualizar(Lancamento lancamento);
 
 	public void excluir(Lancamento lancamento);
 

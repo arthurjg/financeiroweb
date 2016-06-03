@@ -44,9 +44,8 @@ public class CategoriaRepositoryImpl implements CategoriaRepository {
 	@Override
 	public Categoria carregar(Integer categoria) {
 		return (Categoria) this.manager.find(Categoria.class, categoria);
-	}
+	}	
 	
-	//TODO FUNCIONA?
 	@Override
 	public List<Categoria> listar(Usuario usuario) {
 				

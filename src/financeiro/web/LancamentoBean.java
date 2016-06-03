@@ -53,6 +53,7 @@ import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
 import financeiro.model.Conta;
 import financeiro.model.Lancamento;
+import financeiro.rn.CategoriaRN;
 import financeiro.rn.ChequeRN;
 import financeiro.rn.LancamentoRN;
 import financeiro.util.RNException;
@@ -69,6 +70,9 @@ public class LancamentoBean implements Serializable {
 
 	@Inject
 	private LancamentoRN lancamentoRN;
+	
+	@Inject
+	private CategoriaRN categoriaRN;
 
 	private List<Lancamento>	lista;
 	private List<Lancamento>	listaAteHoje;
@@ -88,13 +92,13 @@ public class LancamentoBean implements Serializable {
 	
 	public LancamentoBean() {
 		this.novo();
+		this.periodo = 1;
 	}
 
 	public void novo() {
 		this.editado = new Lancamento();
 		this.editado.setData(new Date(System.currentTimeMillis()));
-		this.numeroCheque = null;
-		this.periodo = 1;
+		this.numeroCheque = null;		
 	}
 
 	public void editar() {
@@ -109,8 +113,11 @@ public class LancamentoBean implements Serializable {
 		this.editado.setUsuario(contextoBean.getUsuarioLogado());
 		this.editado.setConta(contextoBean.getContaAtiva());
 		
+		Categoria categoria = categoriaRN.carregar(this.editado.getCategoria().getCodigo());
+		this.editado.setCategoria(categoria);
+		
 		//RN LB001 - se a descrição não for informada adiciona descrição da Categoria
-		if (this.editado.getDescricao() == null || this.editado.getDescricao() == ""){
+		if (this.editado.getDescricao() == null || this.editado.getDescricao().equals("")){
 			if (this.editado.getCategoria().getDescricao() != null){
 				this.editado.setDescricao(this.editado.getCategoria().getDescricao());
 			}
@@ -138,16 +145,20 @@ public class LancamentoBean implements Serializable {
 			}
 		}
 		
-		lancamentoRN.salvar(this.editado);
+		if(this.editado.getLancamento() == null || this.editado.getLancamento() == 0){
+			lancamentoRN.salvar(this.editado);
+		} else {
+			lancamentoRN.atualizar(this.editado);
+		}
+		
 		this.novo();
-		this.lista = null;
+		limpaListas();
 	}
 
-	public void excluir() {
-		
+	public void excluir() {		
 		this.editado = lancamentoRN.carregar(this.editado.getLancamento());
 		lancamentoRN.excluir(this.editado);
-		this.lista = null;
+		this.limpaListas();
 	}
 
 	public List<Lancamento> getLista() {
@@ -322,6 +333,14 @@ public class LancamentoBean implements Serializable {
 			return null;
 		} 
 		return this.arquivoRetorno;
+	}
+	
+	private void limpaListas(){
+		this.lista = null;
+		this.listaAteHoje = null;
+		this.listaFuturos = null;
+		this.listaMes = null;
+		this.listaMesAnterior = null;
 	}
 
 	public float getSaldoGeral() {
