@@ -101,7 +101,8 @@ public class ContextoBean implements Serializable {
 		ExternalContext external = context.getExternalContext();
 		HttpSession session = (HttpSession) external.getSession(false);
 		session.invalidate();	
-		return "/publico/login";
+		external.invalidateSession();		
+		return "/publico/login?faces-redirect=true";
 	}
 
 	public void setContaAtiva(ValueChangeEvent event) {
