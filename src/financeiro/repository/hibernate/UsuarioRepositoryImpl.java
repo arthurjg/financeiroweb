@@ -29,6 +29,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 			usuario.setPermissao(usuarioPermissao.getPermissao());			
 			manager.detach(usuarioPermissao);
 		}
+		manager.refresh(usuario);
 		//persist?
 	}
 
@@ -57,7 +58,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 	public List<Usuario> listar() {		
 		String hql = "select u from Usuario u";
 		Query consulta = manager.createQuery(hql);
-		return (List<Usuario>) consulta.getResultList();
+		return consulta.getResultList();
 	}
 
 	@Override
@@ -66,11 +67,6 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 		Query consulta = manager.createQuery(hql);
 		consulta.setParameter("email", email );
 		return (Usuario) consulta.getSingleResult();
-	}
-	
-	public void setManager(EntityManager em){
-		this.manager = em;
-		
-	}
+	}	
 
 }

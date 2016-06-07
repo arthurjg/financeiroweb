@@ -51,7 +51,7 @@ import financeiro.web.util.MensagemUtil;
 public class ChequeBean {
 	
 	@Inject
-	ChequeRN chequeRN;
+	private ChequeRN chequeRN;
 	private Cheque				selecionado	= new Cheque();
 	private List<Cheque>	lista				= null;
 	private Integer				chequeInicial;
@@ -112,9 +112,7 @@ public class ChequeBean {
 	public List<Cheque> getLista() {
 		if (this.lista == null) {
 			ContextoBean contextoBean = ContextoUtil.getContextoBean();
-			Conta conta = contextoBean.getContaAtiva();
-
-			
+			Conta conta = contextoBean.getContaAtiva();			
 			this.lista = chequeRN.listar(conta);
 		}
 		return this.lista;

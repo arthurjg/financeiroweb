@@ -23,7 +23,7 @@ public class ContaRepositoryImpl implements ContaRepository {
 
 	@Override
 	public void excluir(Conta conta) {
-		manager.merge(conta);
+		conta = manager.merge(conta);
 		manager.remove(conta);
 	}
 

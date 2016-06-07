@@ -35,6 +35,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
@@ -45,16 +47,19 @@ import financeiro.util.RNException;
 
 @Stateless
 public class ChequeRN {
-
+	
+	@Inject
 	private ChequeRepository	chequeRepository;
 
 	public ChequeRN() {		
 	}
 
+	@Transactional
 	public void salvar(Cheque cheque) {
 		this.chequeRepository.salvar(cheque);
 	}
-
+	
+	@Transactional
 	public int salvarSequencia(Conta conta, Integer chequeInicial, Integer chequeFinal) {
 		Cheque cheque = null;
 		Cheque chequeVerifica = null;
@@ -78,7 +83,8 @@ public class ChequeRN {
 		}
 		return contaTotal;
 	}
-
+	
+	@Transactional
 	public void excluir(Cheque cheque) throws RNException {
 		if (cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_NAO_EMITIDO) {
 			this.chequeRepository.excluir(cheque);
@@ -86,15 +92,18 @@ public class ChequeRN {
 			throw new RNException("N�o � poss�vel excluir cheque, status n�o permitido para opera��o.");
 		}
 	}
-
+	
+	@Transactional
 	public Cheque carregar(ChequeId chequeId) {
 		return this.chequeRepository.carregar(chequeId);
 	}
-
+	
+	@Transactional
 	public List<Cheque> listar(Conta conta) {
 		return this.chequeRepository.listar(conta);
 	}
-
+	
+	@Transactional
 	public void cancelarCheque(Cheque cheque) throws RNException {
 		if (cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_NAO_EMITIDO || cheque.getSituacao() == Cheque.SITUACAO_CHEQUE_CANCELADO) {
 			cheque.setSituacao(Cheque.SITUACAO_CHEQUE_CANCELADO);
@@ -103,7 +112,8 @@ public class ChequeRN {
 			throw new RNException("N�o � poss�vel cancelar cheque, status n�o permitido para opera��o.");
 		}
 	}
-
+	
+	@Transactional
 	public void baixarCheque(ChequeId chequeId, Lancamento lancamento) {
 		Cheque cheque = this.carregar(chequeId);
 		if (cheque != null) {
@@ -112,7 +122,8 @@ public class ChequeRN {
 			this.chequeRepository.salvar(cheque);
 		}
 	}
-
+	
+	@Transactional
 	public void desvinculaLancamento(Conta conta, Integer numeroCheque) throws RNException {
 		ChequeId chequeId = new ChequeId();
 		chequeId.setCheque(numeroCheque);

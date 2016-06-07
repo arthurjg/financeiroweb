@@ -41,7 +41,6 @@ import javax.transaction.Transactional;
 import financeiro.model.Categoria;
 import financeiro.model.Usuario;
 import financeiro.repository.CategoriaRepository;
-import financeiro.repository.hibernate.CategoriaRepositoryImpl;
 
 @Stateless
 public class CategoriaRN {

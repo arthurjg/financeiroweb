@@ -36,10 +36,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import financeiro.model.Cheque;
 import financeiro.model.ChequeId;
@@ -50,34 +51,43 @@ import financeiro.repository.ChequeRepository;
 public class ChequeRepositoryImpl implements ChequeRepository {
 
 	@PersistenceContext
-	private EntityManager manager;
-	private Session	session;
-	
+	private EntityManager manager;	
 
-	public ChequeRepositoryImpl() {
-		this.session = manager.unwrap(Session.class);	
+	public ChequeRepositoryImpl() {			
 	}
 
 	@Override
 	public void salvar(Cheque cheque) {
-		this.session.saveOrUpdate(cheque);
+		this.manager.persist(cheque);
 	}
 
 	@Override
 	public void excluir(Cheque cheque) {
-		this.session.delete(cheque);
+		if(!this.manager.contains(cheque)){
+			cheque = this.manager.merge(cheque);
+		}
+		this.manager.remove(cheque);
 	}
 
 	@Override
 	public Cheque carregar(ChequeId chequeId) {
-		return (Cheque) this.session.get(Cheque.class, chequeId);
+		return (Cheque) this.manager.find(Cheque.class, chequeId);
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public List<Cheque> listar(Conta conta) {
-		Criteria criteria = this.session.createCriteria(Cheque.class);
-		criteria.add(Restrictions.eq("conta", conta));
-		return criteria.list();
+	public List<Cheque> listar(Conta conta) {		
+		
+		CriteriaBuilder criteria = manager.getCriteriaBuilder(); 
+		CriteriaQuery<Cheque> criteriaQuery = criteria.createQuery(Cheque.class);
+		Root<Cheque> root = criteriaQuery.from(Cheque.class);
+		criteriaQuery.select(root);	
+		
+		Predicate predicate = criteria.equal(root.get("conta"), conta);		
+		criteriaQuery.where(predicate);
+		
+		TypedQuery<Cheque> query = manager.createQuery(criteriaQuery);
+		List<Cheque> cheques = query.getResultList();	
+		
+		return cheques;
 	}
 }
