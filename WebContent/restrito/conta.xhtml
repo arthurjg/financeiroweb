@@ -14,6 +14,8 @@
 	</ui:define>
 	
 	<ui:define name="corpo">
+	
+		<f:view contentType="text/html">
 		
 		<h:form id="edicao">
 			<!-- (1) -->
@@ -24,7 +26,8 @@
 				<h:outputLabel value="Descrição: " for="descricao" />
 				<h:inputText id="descricao"
 					value="#{contaBean.selecionada.descricao}" required="true"
-					size="15" maxlength="45" />
+					requiredMessage="Favor informar a descrição">
+				</h:inputText>
 
 				<h:outputLabel value="Saldo Inicial: " for="saldoInicial" />
 				<h:inputText id="saldoInicial"
@@ -45,7 +48,7 @@
 				</h:inputText>
 
 				<h:commandButton value="Salvar" action="#{contaBean.salvar}">
-					<f:ajax render=":edicao :listagem"></f:ajax>
+					<f:ajax execute="@form" render=":edicao :listagem"></f:ajax>
 				</h:commandButton>
 			</h:panelGrid>				
 			
@@ -146,7 +149,9 @@
 						title="Imprimir Planilha Open Office" />
 				</h:commandLink>
 			</h:form>
-		</h:panelGrid>			
+		</h:panelGrid>	
+		
+		</f:view>		
 	
 	</ui:define>
 </ui:composition>

@@ -2,7 +2,6 @@ package financeiro.web;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -13,8 +12,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import financeiro.model.Conta;
@@ -88,13 +85,7 @@ public class ContextoBean implements Serializable {
 		}
 		
 		return false;
-	}
-	
-	/*public void getResponse(HttpServletResponse res, HttpServletRequest req){
-		res.getStatus();
-		Enumeration<String> attrs = req.getAttributeNames();
- 		System.out.println(attrs);
-	}*/
+	}	
 	
 	public String logout() {
 		FacesContext context = FacesContext.getCurrentInstance();

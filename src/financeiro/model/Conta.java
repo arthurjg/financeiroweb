@@ -106,6 +106,14 @@ public class Conta implements Serializable {
 
 	public float getSaldoAtual() {
 		return saldoAtual;
+	}	
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getTipo() {
+		return tipo;
 	}
 
 	@Override
@@ -120,6 +128,7 @@ public class Conta implements Serializable {
 		result = prime * result + (favorita ? 1231 : 1237);
 		result = prime * result + Float.floatToIntBits(saldoAtual);
 		result = prime * result + Float.floatToIntBits(saldoInicial);
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
@@ -156,20 +165,17 @@ public class Conta implements Serializable {
 		if (Float.floatToIntBits(saldoInicial) != Float
 				.floatToIntBits(other.saldoInicial))
 			return false;
+		if (tipo == null) {
+			if (other.tipo != null)
+				return false;
+		} else if (!tipo.equals(other.tipo))
+			return false;
 		if (usuario == null) {
 			if (other.usuario != null)
 				return false;
 		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
+	}	
 
 }

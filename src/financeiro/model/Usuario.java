@@ -98,6 +98,13 @@ public class Usuario implements Serializable{
 		return serialVersionUID;
 	}	
 	
+	public void setPermissao(Set<String> permissao) {
+		this.permissao = permissao;
+	}
+	public Set<String> getPermissao() {
+		return permissao;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -116,6 +123,7 @@ public class Usuario implements Serializable{
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -173,12 +181,6 @@ public class Usuario implements Serializable{
 		} else if (!senha.equals(other.senha))
 			return false;
 		return true;
-	}
-	public void setPermissao(Set<String> permissao) {
-		this.permissao = permissao;
-	}
-	public Set<String> getPermissao() {
-		return permissao;
-	}
+	}	
 
 }

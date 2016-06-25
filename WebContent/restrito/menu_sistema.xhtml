@@ -16,7 +16,6 @@
 					<h:commandButton value="Categorias" action="/restrito/categoria"/>
 					<h:commandButton value="Lançamentos" action="/restrito/lancamento"/>
 					<h:commandButton value="Cheque" action="/restrito/cheque"/>
-					
 					<h:selectOneMenu value="#{contextoBean.contaAtiva.conta}"
 						valueChangeListener="#{contextoBean.setContaAtiva}" 
 						rendered="#{!empty contextoBean}"
@@ -25,7 +24,7 @@
 										var="conta"
 										itemValue="#{conta.conta}"
 										itemLabel="#{conta.descricao}"/>
-					</h:selectOneMenu>						
+					</h:selectOneMenu>											
 				</td>
 				<td align="left">
 					<c:if test="#{contextoBean.usuarioTemPermissao('ROLE_ADMIN')}">					
