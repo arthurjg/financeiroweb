@@ -56,7 +56,8 @@ public class UsuarioDAOHibernateTest {
 		String nome = "John_Smith";
 		Usuario usuario = 
 				new UsuarioDataBuilder().setLogin(login).setNome(nome).getUsuario();
-		usuario.getPermissao().add("ROLE_USUARIO");
+		//TODO
+		//usuario.getPermissao().add("ROLE_USUARIO");
 		Usuario usuarioTeste;
 		salvarUsuario(usuario);
 		usuarioDAO.iniciaTransacao();

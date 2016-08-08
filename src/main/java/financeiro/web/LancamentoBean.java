@@ -80,6 +80,7 @@ public class LancamentoBean implements Serializable {
 	private List<Lancamento>	listaMes;
 	private List<Lancamento>	listaMesAnterior;
 	private List<Double>		saldos	= new ArrayList<Double>();
+	private Double[]		saldosArray;
 	private float				saldoGeral;
 
 	private Lancamento			editado	= new Lancamento();
@@ -329,7 +330,7 @@ public class LancamentoBean implements Serializable {
 		try {
 			this.arquivoRetorno = relatorioUtil.geraRelatorio(parametrosRelatorio, nomeRelatorioJasper, nomeRelatorioSaida, RelatorioUtil.RELATORIO_PDF);
 		} catch (UtilException e) {
-			context.addMessage(null, new FacesMessage("Não foi possível gerar o relatório. Erro: " + e.getMessage()));
+			context.addMessage(null, new FacesMessage("Nï¿½o foi possï¿½vel gerar o relatï¿½rio. Erro: " + e.getMessage()));
 			return null;
 		} 
 		return this.arquivoRetorno;
@@ -361,7 +362,7 @@ public class LancamentoBean implements Serializable {
 
 	public void setSaldos(List<Double> saldos) {
 		this.saldos = saldos;
-	}
+	}	
 
 	public Lancamento getEditado() {
 		return editado;
@@ -405,6 +406,18 @@ public class LancamentoBean implements Serializable {
 
 	public Integer getPeriodo() {
 		return periodo;
+	}
+	
+	public Double[] getSaldosArray() {
+		return (Double[]) saldos.toArray();
+	}
+
+	public void setSaldosArray(Double[] saldosArray) {
+		this.saldosArray = saldosArray;
+	}
+	
+	public Double getSaldo(int index){
+		return this.saldos.get(index);
 	}
 
 }

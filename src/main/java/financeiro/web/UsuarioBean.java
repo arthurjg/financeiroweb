@@ -1,7 +1,6 @@
 package financeiro.web;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import financeiro.model.Conta;
+import financeiro.model.Permissao;
 import financeiro.model.Usuario;
 import financeiro.rn.ContaRN;
 import financeiro.rn.UsuarioRN;
@@ -56,7 +56,7 @@ public class UsuarioBean {
 		
 		if(salvarNovo){
 			if( usuarioRN.buscarPorLogin(this.usuario.getLogin()) != null ){
-				mostraMensagem("Esse login já está sendo utilizado. Por favor informe outro.");
+				mostraMensagem("Esse login jï¿½ estï¿½ sendo utilizado. Por favor informe outro.");
 			} else {
 				usuarioRN.salvar( this.usuario);
 			}
@@ -89,10 +89,10 @@ public class UsuarioBean {
 		return null;
 	}
 	
-	public String atribuiPermissao(Usuario usuario, String permissao) {
+	public String atribuiPermissao(Usuario usuario, Permissao permissao) {
 
 		this.usuario = usuario;
-		Set<String> permissoes = this.usuario.getPermissao();
+		List<Permissao> permissoes = this.usuario.getPermissoes();
 
 		if (permissoes.contains(permissao)) {
 			permissoes.remove(permissao);

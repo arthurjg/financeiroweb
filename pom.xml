@@ -113,8 +113,14 @@
 		<artifactId>jasperreports</artifactId>
 		<version>3.7.2</version>
 	</dependency>
-
 	
+	<!-- Driver JDBC do Postgres -->
+	<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>9.2-1003-jdbc4</version>
+		<scope>compile</scope>
+	</dependency>	
 
   </dependencies>
   

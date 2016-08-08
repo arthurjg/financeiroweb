@@ -1,20 +1,21 @@
 package financeiro.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-public class Usuario implements Serializable{
+public class Usuario implements Serializable{	
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -31,13 +32,8 @@ public class Usuario implements Serializable{
 	private String idioma;	
 	private boolean ativo;
 	
-	@ElementCollection(targetClass = String.class)
-	@JoinTable(
-	           name = "usuario_permissao", 
-			     uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario", "permissao"})}, 
-			     joinColumns = @JoinColumn(name = "usuario"))
-	@Column(name = "permissao", length = 50)
-	private Set<String> permissao = new HashSet<String>();
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Permissao> permissoes = new ArrayList<Permissao>();	
 	
 	public Integer getCodigo() {
 		return codigo;
@@ -98,13 +94,12 @@ public class Usuario implements Serializable{
 		return serialVersionUID;
 	}	
 	
-	public void setPermissao(Set<String> permissao) {
-		this.permissao = permissao;
+	public void setPermissoes(List<Permissao> permissao) {
+		this.permissoes = permissao;
 	}
-	public Set<String> getPermissao() {
-		return permissao;
+	public List<Permissao> getPermissoes() {
+		return permissoes;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -119,11 +114,10 @@ public class Usuario implements Serializable{
 				+ ((nascimento == null) ? 0 : nascimento.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result
-				+ ((permissao == null) ? 0 : permissao.hashCode());
+				+ ((permissoes == null) ? 0 : permissoes.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -170,10 +164,10 @@ public class Usuario implements Serializable{
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (permissao == null) {
-			if (other.permissao != null)
+		if (permissoes == null) {
+			if (other.permissoes != null)
 				return false;
-		} else if (!permissao.equals(other.permissao))
+		} else if (!permissoes.equals(other.permissoes))
 			return false;
 		if (senha == null) {
 			if (other.senha != null)

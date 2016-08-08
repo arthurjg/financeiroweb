@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import financeiro.model.Conta;
+import financeiro.model.Permissao;
 import financeiro.model.Usuario;
 import financeiro.rn.ContaRN;
 import financeiro.rn.UsuarioRN;
@@ -50,7 +51,10 @@ public class ContextoBean implements Serializable {
 				Locale locale = new Locale(info[0], info[1]);
 				context.getViewRoot().setLocale(locale);			
 			}
-		}
+		} /*else {
+			this.logout();
+			return null;
+		}*/
 		
 		return usuarioLogado;
 	}
@@ -58,18 +62,21 @@ public class ContextoBean implements Serializable {
 	public Conta getContaAtiva() {
 		
 		if (this.contaAtiva == null) {
-			Usuario usuario = this.getUsuarioLogado();			
-			this.contaAtiva = contaRN.buscarFavorita(usuario);
+			Usuario usuario = this.getUsuarioLogado();	
+			if(usuario != null){
+				this.contaAtiva = contaRN.buscarFavorita(usuario);
 
-			if (this.contaAtiva == null) {
-				List<Conta> contas = contaRN.listar(usuario);
-				if (contas != null) {
-					for (Conta conta : contas) {
-						this.contaAtiva = conta;
-						break;
+				if (this.contaAtiva == null) {
+					List<Conta> contas = contaRN.listar(usuario);
+					if (contas != null) {
+						for (Conta conta : contas) {
+							this.contaAtiva = conta;
+							break;
+						}
 					}
 				}
 			}
+			
 		}
 		return this.contaAtiva;
 	}
@@ -77,13 +84,12 @@ public class ContextoBean implements Serializable {
 	public Boolean usuarioTemPermissao(String permissao) {
 		Usuario usuario = this.getUsuarioLogado();
 		if(usuario != null){
-			for( String permissaoUsuario : usuario.getPermissao()){
-				if(permissao.equals(permissaoUsuario)){
+			for( Permissao permissaoUsuario : usuario.getPermissoes()){
+				if(permissaoUsuario.getNome().equals(permissao)){
 					return true;
 				}
 			}
-		}
-		
+		}		
 		return false;
 	}	
 	

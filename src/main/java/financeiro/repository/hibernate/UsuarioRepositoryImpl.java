@@ -24,9 +24,9 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 	
 	@Override
 	public void atualizar(Usuario usuario) {		
-		if (usuario.getPermissao() == null || usuario.getPermissao().size() == 0) {
+		if (usuario.getPermissoes() == null || usuario.getPermissoes().size() == 0) {
 			Usuario usuarioPermissao = this.carregar(usuario.getCodigo());
-			usuario.setPermissao(usuarioPermissao.getPermissao());			
+			usuario.setPermissoes(usuarioPermissao.getPermissoes());			
 			manager.detach(usuarioPermissao);
 		}
 		manager.merge(usuario);
