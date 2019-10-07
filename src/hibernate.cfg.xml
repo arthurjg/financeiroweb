@@ -12,9 +12,12 @@
 		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		<property name="current_session_context_class">thread</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
-		<property name="connection.datasource">java:jboss/datasources/FinanceiroDS</property>
+		<property name="connection.datasource">java:/comp/env/jdbc/FinanceiroDB</property>
 		
 		<!--
+		
+		<property name="connection.datasource">java:jboss/datasources/FinanceiroDS</property>
+		
 		<property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
 		<property name="connection.url">jdbc:db2://localhost:50000/Finance</property>
 		<property name="connection.username">Art</property>
