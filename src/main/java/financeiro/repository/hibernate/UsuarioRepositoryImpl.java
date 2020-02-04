@@ -2,7 +2,6 @@ package financeiro.repository.hibernate;
 
 import java.util.List;
 
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -11,7 +10,7 @@ import javax.persistence.Query;
 import financeiro.model.Usuario;
 import financeiro.repository.UsuarioRepository;
 
-@Stateful
+
 public class UsuarioRepositoryImpl implements UsuarioRepository {	
 
 	@PersistenceContext(type=PersistenceContextType.EXTENDED)

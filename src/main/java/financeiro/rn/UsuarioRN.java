@@ -3,7 +3,6 @@ package financeiro.rn;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -13,7 +12,7 @@ import financeiro.model.Usuario;
 import financeiro.repository.UsuarioRepository;
 import financeiro.repository.hibernate.UsuarioRepositoryImpl;
 
-@Stateful
+
 public class UsuarioRN {
 	 
 	@Inject

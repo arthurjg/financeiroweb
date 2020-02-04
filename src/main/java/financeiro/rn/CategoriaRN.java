@@ -34,7 +34,6 @@ package financeiro.rn;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -42,7 +41,7 @@ import financeiro.model.Categoria;
 import financeiro.model.Usuario;
 import financeiro.repository.CategoriaRepository;
 
-@Stateless
+
 public class CategoriaRN {
 	
 	@Inject	
@@ -136,19 +135,19 @@ public class CategoriaRN {
 		Categoria despesas = new Categoria(null, usuario, "DESPESAS", -1);
 		despesas = this.categoriaRepository.salvar(despesas);
 		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Moradia", -1));
-		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Alimentação", -1));
-		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Vestuário", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Alimentaï¿½ï¿½o", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Vestuï¿½rio", -1));
 		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Deslocamento", -1));
 		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Cuidados Pessoais", -1));
-		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Educação", -1));
-		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Saúde", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Educaï¿½ï¿½o", -1));
+		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Saï¿½de", -1));
 		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Lazer", -1));
 		this.categoriaRepository.salvar(new Categoria(despesas, usuario, "Despesas Financeiras", -1));
 
 		Categoria receitas = new Categoria(null, usuario, "RECEITAS", 1);
 		receitas = this.categoriaRepository.salvar(receitas);
-		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Salário", 1));
-		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Restituições", 1));
+		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Salï¿½rio", 1));
+		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Restituiï¿½ï¿½es", 1));
 		this.categoriaRepository.salvar(new Categoria(receitas, usuario, "Rendimento", 1));
 	}
 }

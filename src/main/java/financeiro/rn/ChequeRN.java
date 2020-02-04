@@ -34,7 +34,6 @@ package financeiro.rn;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -45,7 +44,7 @@ import financeiro.model.Lancamento;
 import financeiro.repository.ChequeRepository;
 import financeiro.util.RNException;
 
-@Stateless
+
 public class ChequeRN {
 	
 	@Inject
